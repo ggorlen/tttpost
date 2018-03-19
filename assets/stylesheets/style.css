@@ -1,0 +1,150 @@
+@import url('https://fonts.googleapis.com/css?family=Nanum+Gothic+Coding:400,700|Nanum+Myeongjo:400,700');
+
+
+html {
+  min-height: 100%;
+}
+
+body {
+  font-family: 'Nanum Myeongjo', serif;
+  min-height: 100%;
+  margin: 0;
+  color: #444;
+}
+
+a, 
+a:link, 
+a:visited, 
+a:hover, 
+a:active {
+  color: #000;
+  text-decoration: none;
+  border-bottom: 1px solid #444;
+}
+
+a:hover {
+  color: #999;
+  border-bottom: 1px solid #999;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Nanum Gothic Coding', monospace;
+}
+
+header {
+  width: 100%;
+  background-color: #222;
+  color: #fff;
+  margin: 0;
+  text-align: center;
+}
+
+nav, .site-description {
+  font-family: 'Nanum Gothic Coding', monospace;
+  text-align: center;
+  background-color: #222;
+  color: #fff;
+  width: 100%;
+  padding-bottom: 1em;
+  font-size: 1.1em;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+nav ul > li {
+  display: inline-block;
+  padding: 0 0.5em 0 0.5em;
+  margin: 0;
+}
+
+nav ul > li > a,
+nav ul > li > a:link,
+nav ul > li > a:visited,
+nav ul > li > a:hover,
+nav ul > li > a:active {
+  color: #fff; 
+  border-bottom: 1px solid #fff;
+}
+  
+footer > p {
+  text-align: center;
+}
+
+#main {
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+}
+
+.content {
+  padding: 2em;
+}
+
+.entryway-container #register-container, 
+.entryway-container #login-container {
+  padding: 1em;
+}
+
+.entryway-container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+}
+
+.entryway-container input {
+  font-family:  monospace;
+}
+
+.entryway-container input[type=submit] {
+  background: transparent;
+  padding: 0.4em;
+  width: 100%;
+  border: 1px solid #777;
+}
+
+.entryway-container input[type=submit]:hover {
+  border: 1px solid #000;
+  cursor: pointer;
+}
+
+input[type=text], 
+input[type=password] {
+  width: 150px;
+  padding: 0.4em;
+}
+
+.error-container ul {
+  color: #e00;
+  list-style: none;
+  padding: 0;
+}
+
+.inline-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.inline-list > li {
+  display: inline-block;
+
+}
+
+@media (max-width: 600px) {
+  header {
+    text-align: left;
+  }
+
+  header h1 {
+    padding-left: 0.5em;
+  }
+
+  nav ul > li {
+    display: block;
+    text-align: left;
+  }
+}
