@@ -137,18 +137,22 @@ input[type=password] {
 
 }
 
+.ttt-board-container {
+  display: flex;
+  flex-flow: row wrap;
+}
+
 .ttt-board {
   padding: 1em;
   margin: 1em;
-  border: 1px solid black;
   font-family: 'Nanum Gothic Coding', monospace;
 }
 
 .ttt-board table {
-  margin: 1em 0 0 0;
-  border: 3px solid #222;
+  margin: 0 auto 0.3em auto;
+  border: 2px solid #222;
   table-layout: fixed;
-  font-size: 3em;
+  font-size: 1.5em;
   font-weight: 700;
   text-transform: uppercase;
   font-family: monospace;
@@ -156,11 +160,15 @@ input[type=password] {
 }
 
 .ttt-board table td {
-  cursor: pointer;
+  cursor: default;
   height: 2em;
   width: 2em;
   border: 1px solid #777;
   text-align: center;
+}
+
+.ttt-board table td.movable {
+  cursor: pointer;
 }
 
 @media (max-width: 600px) {
@@ -169,11 +177,12 @@ input[type=password] {
   }
 
   header h1 {
-    padding-left: 0.5em;
+    padding-left: 1em;
   }
 
   nav ul > li {
     display: block;
     text-align: left;
+    padding-left: 2em;
   }
 }

@@ -1,24 +1,26 @@
-<div class="ttt-board">
-  <div>started: <?= $startTime ?></div>
-  <div>X: <?= $player1 ?></div>
-  <div>O: <?= $player2 ?></div>
-  <div>to play: <?= $currentPlayer ?></div>
-
+<div class="ttt-board" id="ttt-game-<?= $gameID ?>">
   <table>
 
     <?php
     foreach ($board as $i => $square) {
         if ($i % 3 === 0) {
-            echo "<tr>";
+            echo "<tr>\n";
         }
 
-        echo "<td>$square</td>";
+        echo "<td" . ($square === " " && $userHasMove ? ' class="movable"' : "") . 
+             " id=\"ttt-square-$i\">$square</td>\n";
 
         if ($i % 3 === 2) {
-            echo "</tr>";
+            echo "</tr>\n";
         }
     }
     ?>
 
   </table>
+
+  <div>started: <?= $startTime ?></div>
+  <div>X: <?= $player1Username ?></div>
+  <div>O: <?= $player2Username ?></div>
+  <div>to play: <?= $toPlay ?></div>
+
 </div>

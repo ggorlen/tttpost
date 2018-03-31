@@ -22,39 +22,60 @@ class TicTacToeGame implements Game {
      */
     public function __construct($data) {
         $this->db = new DB(DBHOST, DBUSER, DBPASS, DATABASE);
-        $this->id = $data->id;
-        $this->endTime = $data->end_time;
-        $this->moveTimeLimit = $data->move_time_limit;
-        $this->gameTimeLimit = $data->game_time_limit;
-        $this->player1 = $data->player1_id;
-        $this->player2 = $data->player2_id;
-        $this->result = $data->result;
-        $this->startTime = $data->start_time;
+        $this->id = intval($this->db->real_escape_string($data->id));
+        $this->endTime = intval($this->db->real_escape_string($data->end_time));
+        $this->moveTimeLimit = intval($this->db->real_escape_string($data->move_time_limit));
+        $this->gameTimeLimit = intval($this->db->real_escape_string($data->game_time_limit));
+        $this->player1 = intval($this->db->real_escape_string($data->player1_id));
+        $this->player2 = intval($this->db->real_escape_string($data->player2_id));
+        $this->result = $this->db->real_escape_string($data->result);
+        $this->startTime = intval($this->db->real_escape_string($data->start_time));
+
+        // Get player data
+        $query = "SELECT username FROM ttt_users WHERE id = '$this->player1';";
+        $result = $this->db->query($query);
+
+        if ($result && $result->num_rows === 1) {
+            $this->player1Username = $result->fetch_object()->username;
+        }
+
+        $query = "SELECT username FROM ttt_users WHERE id = '$this->player2';";
+        $result = $this->db->query($query);
+
+        if ($result && $result->num_rows === 1) {
+            $this->player2Username = $result->fetch_object()->username;
+        }
         
         // Get move data and build a board
-        $query = "SELECT * FROM ttt_moves WHERE game_id = '$this->id';";
-        $result = $this->db->query($query);
         $xMoves = [];
         $oMoves = [];
-        $ply = 0;
+
+        $query = "SELECT end_location FROM ttt_moves 
+                  WHERE game_id = '$this->id' 
+                  AND player_id = '$this->player1';";
+        $result = $this->db->query($query);
 
         if ($result && $result->num_rows > 0) {
             while ($moveData = $result->fetch_object()) {
-                if ($moveData->player_id === $this->player1) {
-                    $xMoves[]= $moveData->end_location;
-                }
-                else {
-                    $oMoves[]= $moveData->end_location;
-                }
+                $xMoves[]= $moveData->end_location;
+            }
+        }
 
-                $ply = max($moveData->ply, $ply);
+        $query = "SELECT end_location FROM ttt_moves 
+                  WHERE game_id = '$this->id' 
+                  AND player_id = '$this->player2';";
+        $result = $this->db->query($query);
+
+        if ($result && $result->num_rows > 0) {
+            while ($moveData = $result->fetch_object()) {
+                $oMoves[]= $moveData->end_location;
             }
         }
 
         $this->board = new TicTacToeBoard(
             array_map("intval", $xMoves), 
             array_map("intval", $oMoves), 
-            $ply + 1
+            count($xMoves) + count($oMoves)
         );
     } // end __construct
 
@@ -66,6 +87,15 @@ class TicTacToeGame implements Game {
     public function getBoard() {
         return $this->board->getBoard();
     } // end getBoard
+
+    /**
+     * Returns the game's id
+     *
+     * @return integer id
+     */
+    public function getID() {
+        return $this->id;
+    } // end getID
 
     /**
      * Makes a move on the game board
@@ -102,6 +132,24 @@ class TicTacToeGame implements Game {
     public function getPlayer2() {
         return $this->player2;
     } // end getPlayer2
+
+    /**
+     * Returns the username of player1
+     *
+     * @return int username of player1
+     */
+    public function getPlayer1Username() {
+        return $this->player1Username;
+    } // end getPlayer1Username
+
+    /**
+     * Returns the username of player2
+     *
+     * @return int username of player2
+     */
+    public function getPlayer2Username() {
+        return $this->player2Username;
+    } // end getPlayer2Username
 
     /**
      * Returns the ply

@@ -181,7 +181,8 @@ class User {
      * @return an array of Game objects
      */
     public function getCurrentGames() {
-        $query = "SELECT * FROM ttt_games WHERE player1_id = '$this->id';"; // TODO ttt_games literal
+        $query = "SELECT * FROM ttt_games 
+                  WHERE '$this->id' IN (player1_id, player2_id);"; 
         $result = $this->db->query($query);
         
         if ($result && $result->num_rows > 0) {

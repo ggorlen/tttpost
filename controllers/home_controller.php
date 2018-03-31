@@ -32,19 +32,37 @@ class HomeController {
             $username = $this->model->getUsername();
             $permissions = $this->model->getPermissions();
             $admin = $this->model->getPermissions() & User::PERMISSIONS['admin'];
+
             include LAYOUTS . 'navigation.php';
 
             // Retrieve list of current games
             $games = $this->model->getCurrentGames();
 
-            foreach ($games as $game) {
-                $board = $game->getBoard();
-                $startTime = date("Y/m/d h:m A", $game->getStartTime());
-                $player1 = $game->getPlayer1();
-                $player2 = $game->getPlayer2();
-                $currentPlayer = $game->getCurrentPlayer();
+            if ($games && count($games) > 0) {
+                include LAYOUTS . 'ttt_board_grid_header.php';
 
-                include HELPERS . 'ttt_board.php';
+                foreach ($games as $game) {
+                    $board = $game->getBoard();
+                    $gameID = $game->getId();
+                    $startTime = date("Y/m/d h:m A", $game->getStartTime());
+                    $player1 = $game->getPlayer1();
+                    $player2 = $game->getPlayer2();
+                    $player1Username = $game->getPlayer1Username();
+                    $player2Username = $game->getPlayer2Username();
+                    $currentPlayer = $game->getCurrentPlayer();
+                    $userHasMove = false;
+                    
+                    if ($username === $player1Username && $currentPlayer === $player1 ||
+                        $username === $player2Username && $currentPlayer === $player2) {
+                        $userHasMove = true;
+                    }
+
+                    $toPlay = $currentPlayer === $player1 ? "X" : "O";
+                
+                    include HELPERS . 'ttt_board.php';
+                }
+
+                include LAYOUTS . 'ttt_board_grid_footer.php';
             }
         }
         else {
