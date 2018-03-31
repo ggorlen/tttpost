@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Controller to handle requests for new games
+ * Controller to handle requests for new seeks
  */
-class NewGameController {
+class NewSeekController {
     private $userModel;
 
     /**
@@ -22,11 +22,7 @@ class NewGameController {
 
         // Check for requests for joining and creating seeks
         if (isset($_POST) && count($_POST) > 0) {
-            var_dump($_POST);
         }
-
-        include LAYOUTS . 'header.php';
-        include LAYOUTS . 'title.php';
 
         // Start a session
         $this->userModel->loadSession();
@@ -40,20 +36,13 @@ class NewGameController {
         }
 
         $username = $this->userModel->getUsername();
-        $userId = $this->userModel->getId();
         $permissions = $this->userModel->getPermissions();
         $admin = $this->userModel->getPermissions() & User::PERMISSIONS['admin'];
-        include LAYOUTS . 'navigation.php';
 
-        $seekModel = new Seeks();
-        $seeks = $seekModel->getSeeks();
-
-        // Show link to make new seek and list of available seeks
-        include VIEWS . 'newgame/new_seek.php';
-        include VIEWS . 'newgame/show_seeks.php';
-
-        include LAYOUTS . 'footer.php';
+        // Make a new seek
+        $seek = new Seeks();
+        echo $seek->newSeek($this->userModel->getId());
     } // end call
-} // end NewGameController
+} // end NewSeekController
 
 ?>

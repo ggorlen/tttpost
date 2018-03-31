@@ -6,6 +6,7 @@ $routes = [
   'login'     => 'LoginController',
   'logout'    => 'LogoutController',
   'new'       => 'NewGameController',
+  'newseek'   => 'NewSeekController',
   'profile'   => 'ProfileController',
   'register'  => 'RegisterController',
 ];

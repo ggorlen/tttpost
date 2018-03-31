@@ -39,30 +39,15 @@ class HomeController {
             $games = $this->model->getCurrentGames();
 
             if ($games && count($games) > 0) {
-                include LAYOUTS . 'ttt_board_grid_header.php';
+
+                // Render view for each game
+                include VIEWS . 'ttt/ttt_board_grid_header.php';
 
                 foreach ($games as $game) {
-                    $board = $game->getBoard();
-                    $gameID = $game->getId();
-                    $startTime = date("Y/m/d h:m A", $game->getStartTime());
-                    $player1 = $game->getPlayer1();
-                    $player2 = $game->getPlayer2();
-                    $player1Username = $game->getPlayer1Username();
-                    $player2Username = $game->getPlayer2Username();
-                    $currentPlayer = $game->getCurrentPlayer();
-                    $userHasMove = false;
-                    
-                    if ($username === $player1Username && $currentPlayer === $player1 ||
-                        $username === $player2Username && $currentPlayer === $player2) {
-                        $userHasMove = true;
-                    }
-
-                    $toPlay = $currentPlayer === $player1 ? "X" : "O";
-                
-                    include HELPERS . 'ttt_board.php';
+                    $this->showGame($username, $game);
                 }
 
-                include LAYOUTS . 'ttt_board_grid_footer.php';
+                include VIEWS . 'ttt//ttt_board_grid_footer.php';
             }
         }
         else {
@@ -72,6 +57,29 @@ class HomeController {
 
         include LAYOUTS . 'footer.php';
     } // end call
+
+    /**
+     * Creates a game view
+     */
+    private function showGame($username, $game) {
+        $board = $game->getBoard();
+        $gameID = $game->getId();
+        $startTime = date("Y/m/d h:m A", $game->getStartTime());
+        $player1 = $game->getPlayer1();
+        $player2 = $game->getPlayer2();
+        $player1Username = $game->getPlayer1Username();
+        $player2Username = $game->getPlayer2Username();
+        $currentPlayer = $game->getCurrentPlayer();
+        $toPlay = $currentPlayer === $player1 ? "X" : "O";
+        $userHasMove = false;
+        
+        if ($username === $player1Username && $currentPlayer === $player1 ||
+            $username === $player2Username && $currentPlayer === $player2) {
+            $userHasMove = true;
+        }
+
+        include VIEWS . 'ttt/ttt_board.php';
+    } // end showGame
 } // end HomeController
 
 ?>

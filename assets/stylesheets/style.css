@@ -171,6 +171,29 @@ input[type=password] {
   cursor: pointer;
 }
 
+.ttt-new-seek {
+  margin: 1em;
+}
+
+#ttt-new-seek-btn {
+  font-size: 1.3em;
+}
+
+.ttt-seeks-container {
+  margin: 1em;
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.ttt-seek {
+  padding: 1em;
+  transition: 0.2s background;
+}
+
+.ttt-seek:hover {
+  background: #f8f8f8;
+}
+
 @media (max-width: 600px) {
   header {
     text-align: left;
