@@ -18,9 +18,9 @@ class TicTacToeBoard implements Board {
      * Constructor for a tic tac toe game board
      */
     public function __construct($xMoves, $oMoves, $ply) { // TODO
-        $this->xMoves = [];
-        $this->oMoves = [];
-        $this->ply = 0;
+        $this->xMoves = $xMoves;
+        $this->oMoves = $oMoves;
+        $this->ply = $ply;
     } // end construct
 
     /**
@@ -32,10 +32,10 @@ class TicTacToeBoard implements Board {
         $board = [];
 
         for ($i = 0; $i < 9; $i++) {
-            if (array_key_exists($i, $xMoves)) {
+            if (in_array($i, $this->xMoves)) {
                 $board[]= "x";
             }
-            else if (array_key_exists($i, $oMoves)) {
+            else if (in_array($i, $this->oMoves)) {
                 $board[]= "o";
             }
             else {

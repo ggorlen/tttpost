@@ -99,7 +99,7 @@ footer > p {
 }
 
 .entryway-container input {
-  font-family:  monospace;
+  font-family: monospace;
 }
 
 .entryway-container input[type=submit] {
@@ -135,6 +135,32 @@ input[type=password] {
 .inline-list > li {
   display: inline-block;
 
+}
+
+.ttt-board {
+  padding: 1em;
+  margin: 1em;
+  border: 1px solid black;
+  font-family: 'Nanum Gothic Coding', monospace;
+}
+
+.ttt-board table {
+  margin: 1em 0 0 0;
+  border: 3px solid #222;
+  table-layout: fixed;
+  font-size: 3em;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-family: monospace;
+  border-collapse: collapse;
+}
+
+.ttt-board table td {
+  cursor: pointer;
+  height: 2em;
+  width: 2em;
+  border: 1px solid #777;
+  text-align: center;
 }
 
 @media (max-width: 600px) {

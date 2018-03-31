@@ -175,6 +175,28 @@ class User {
         return false;
     }
 
+    /**
+     * Retrieves a list of current games for this user
+     *
+     * @return an array of Game objects
+     */
+    public function getCurrentGames() {
+        $query = "SELECT * FROM ttt_games WHERE player1_id = '$this->id';"; // TODO ttt_games literal
+        $result = $this->db->query($query);
+        
+        if ($result && $result->num_rows > 0) {
+            $games = [];
+
+            while ($gameData = $result->fetch_object()) {
+                $games[]= new TicTacToeGame($gameData);
+            }
+
+            return $games;
+        }
+
+        return false;
+    }  
+
     // TODO
     private function unregister($password) {}
     private function changeUsername($password, $newUsername) {}

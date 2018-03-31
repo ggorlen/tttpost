@@ -34,7 +34,18 @@ class HomeController {
             $admin = $this->model->getPermissions() & User::PERMISSIONS['admin'];
             include LAYOUTS . 'navigation.php';
 
-            // get list of current games
+            // Retrieve list of current games
+            $games = $this->model->getCurrentGames();
+
+            foreach ($games as $game) {
+                $board = $game->getBoard();
+                $startTime = date("Y/m/d h:m A", $game->getStartTime());
+                $player1 = $game->getPlayer1();
+                $player2 = $game->getPlayer2();
+                $currentPlayer = $game->getCurrentPlayer();
+
+                include HELPERS . 'ttt_board.php';
+            }
         }
         else {
             include VIEWS . 'home/entryway.php';

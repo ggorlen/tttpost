@@ -6,21 +6,56 @@
 class TicTacToeGame implements Game {
     private const GAME_TYPE = 'tic tac toe';
     private $db;
+    private $id;
+    private $endTime;
+    private $moveTimeLimit;
+    private $gameTimeLimit;
     private $board;
     private $player1;
     private $player2;
-    private $currentPlayer;
     private $result;
+    private $startTime;
 
 
     /**
      * Constructor for a TicTacToeGame object
      */
-    public function __construct() {
+    public function __construct($data) {
         $this->db = new DB(DBHOST, DBUSER, DBPASS, DATABASE);
-        // open db connection and get game data, then build tttboard
+        $this->id = $data->id;
+        $this->endTime = $data->end_time;
+        $this->moveTimeLimit = $data->move_time_limit;
+        $this->gameTimeLimit = $data->game_time_limit;
+        $this->player1 = $data->player1_id;
+        $this->player2 = $data->player2_id;
+        $this->result = $data->result;
+        $this->startTime = $data->start_time;
+        
+        // Get move data and build a board
+        $query = "SELECT * FROM ttt_moves WHERE game_id = '$this->id';";
+        $result = $this->db->query($query);
+        $xMoves = [];
+        $oMoves = [];
+        $ply = 0;
 
-         
+        if ($result && $result->num_rows > 0) {
+            while ($moveData = $result->fetch_object()) {
+                if ($moveData->player_id === $this->player1) {
+                    $xMoves[]= $moveData->end_location;
+                }
+                else {
+                    $oMoves[]= $moveData->end_location;
+                }
+
+                $ply = max($moveData->ply, $ply);
+            }
+        }
+
+        $this->board = new TicTacToeBoard(
+            array_map("intval", $xMoves), 
+            array_map("intval", $oMoves), 
+            $ply + 1
+        );
     } // end __construct
 
     /**
@@ -113,7 +148,7 @@ class TicTacToeGame implements Game {
      * @return string the start time
      */
     public function getStartTime() {
-       return 0; 
+       return $this->startTime; 
     } // end getStartTime
 
     /**
