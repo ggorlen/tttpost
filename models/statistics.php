@@ -30,8 +30,8 @@ final class Stats {
     public function getWins() {
         $query = '
             SELECT wins FROM ttt_stats
-            INNER JOIN test_users
-            ON test_users.id = ttt_stats.id
+            INNER JOIN ttt_users
+            ON ttt_users.id = ttt_stats.id
             WHERE ttt_stats.id = ' . $this->id . ';'
         ;
 
@@ -53,8 +53,8 @@ final class Stats {
     public function getLosses() {
         $query = '
             SELECT losses FROM ttt_stats
-            INNER JOIN test_users
-            ON test_users.id = ttt_stats.id
+            INNER JOIN ttt_users
+            ON ttt_users.id = ttt_stats.id
             WHERE ttt_stats.id = ' . $this->id . ';'
         ;
 
@@ -76,8 +76,8 @@ final class Stats {
     public function getDraws() {
         $query = '
             SELECT draws FROM ttt_stats
-            INNER JOIN test_users
-            ON test_users.id = ttt_stats.id
+            INNER JOIN ttt_users
+            ON ttt_users.id = ttt_stats.id
             WHERE ttt_stats.id = ' . $this->id . ';'
         ;
 
@@ -92,7 +92,7 @@ final class Stats {
     }
 
 
-    // TODO setters
+    // TODO setters and interface
 }
 
 ?>

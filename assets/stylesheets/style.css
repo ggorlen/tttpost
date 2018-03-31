@@ -46,7 +46,6 @@ nav, .site-description {
   color: #fff;
   width: 100%;
   padding-bottom: 1em;
-  font-size: 1.1em;
 }
 
 nav ul {
@@ -67,7 +66,11 @@ nav ul > li > a:visited,
 nav ul > li > a:hover,
 nav ul > li > a:active {
   color: #fff; 
-  border-bottom: 1px solid #fff;
+  border-bottom: 1px solid #aaa;
+}
+
+nav ul > li > a:hover {
+  border-bottom: 1px solid transparent;
 }
   
 footer > p {

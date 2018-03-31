@@ -28,25 +28,24 @@ class ProfileController implements Controller {
         // Determine whether user is logged in
         $loggedIn = $this->model->loggedIn();
 
-        if ($loggedIn) {
-            $username = $this->model->getUsername();
-            $permissions = $this->model->getPermissions();
-            $admin = $this->model->getPermissions() & User::PERMISSIONS['admin'];
-
-            // Retrieve (TODO: profile) and stats info
-            $stats = new Stats($this->model);
-            $wins = $stats->getWins();
-            $losses = $stats->getLosses();
-            $draws = $stats->getDraws();
-
-            include LAYOUTS . 'navigation.php';
-            include VIEWS . 'profile/profile.php';
-        }
-        else {
-            include VIEWS . 'home/entryway.php';
-            include HELPERS . 'errors.php';
+        // Redirect the user home if not logged in
+        if (!$loggedIn) {
+            header("Location: index.php");
         }
 
+        // Retrieve username and permissions from the model
+        $username = $this->model->getUsername();
+        $permissions = $this->model->getPermissions();
+        $admin = $this->model->getPermissions() & User::PERMISSIONS['admin'];
+
+        // Retrieve (TODO: profile) and stats info
+        $stats = new Stats($this->model);
+        $wins = $stats->getWins();
+        $losses = $stats->getLosses();
+        $draws = $stats->getDraws();
+
+        include LAYOUTS . 'navigation.php';
+        include VIEWS . 'profile/profile.php';
         include LAYOUTS . 'footer.php';
     } // end call
 } // end ProfileController

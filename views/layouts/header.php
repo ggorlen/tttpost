@@ -9,7 +9,12 @@
     <meta name="author" content="Greg Gorlen">
     <meta name="keywords" content="greg, gorlen, tic, tac, toe, tttpost, ccsf">
 
+    <!-- Stylesheet -->
     <link rel="stylesheet" href="<?= ASSETS . 'stylesheets/style.css'; ?>">
+
+    <!-- Favicon -->
+    <link rel='shortcut icon' href="<?= ASSETS . 'images/favicon.ico'; ?>" type='image/x-icon'/>
+
   </head>
   <body>
     <div id="main">

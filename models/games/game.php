@@ -4,13 +4,17 @@
  * Game interface
  */
 interface Game {
-    public function toHTML();
     public function getBoard();
-    public function getGameType();
     public function getPlayer1();
     public function getPlayer2();
-    public function getPlayerToMove();
+    public function getCurrentPlayer();
     public function getResult();
+    public function getPly();
+    public function getEndTime();
+    public function getStartTime();
+    public function getMoveTimeLimit();
+    public function getGameTimeLimit();
+    public function move($playerId, $square);
 }
 
 ?>

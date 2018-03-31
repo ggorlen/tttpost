@@ -103,7 +103,7 @@ class TicTacToeBoard implements Board {
      * @return true if drawn
      */
     public function isDrawn() {
-      return $this->ply >= 9;
+        return $this->ply >= 9;
     } // end isDrawn
     
     /**
@@ -112,18 +112,27 @@ class TicTacToeBoard implements Board {
      * @return valid moves array
      */
     public function getMoves() {
-      $possibleMoves = [0, 1, 2, 3, 4, 5, 6, 7, 8];
-      $moves = [];
-
-      foreach ($possibleMoves as $move) {
-          if (!array_key_exists($move, $this->xMoves) &&
-              !array_key_exists($move, $this->oMoves)) {
-              $moves[]= $move;
-          }
-      }
-
-      return $moves;
+        $possibleMoves = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+        $moves = [];
+        
+        foreach ($possibleMoves as $move) {
+            if (!array_key_exists($move, $this->xMoves) &&
+                !array_key_exists($move, $this->oMoves)) {
+                $moves[]= $move;
+            }
+        }
+        
+        return $moves;
     } // end getMoves
+
+    /**
+     * Returns the ply
+     *
+     * @return integer ply
+     */
+    public function getPly() {
+        return $this->ply;
+    } // end getPly 
     
     /**
      * Produces a deep copy of this object
@@ -131,21 +140,21 @@ class TicTacToeBoard implements Board {
      * @return TicTacToeBoard clone
      */
     public function deepCopy() {
-      $ttt = new TicTacToeBoard();
-      $ttt->xMoves = [];
-      $ttt->oMoves = [];
-
-      foreach ($this->xMoves as $xMove) {
-          $ttt->xMoves[]= $xMove;
-      }
-
-      foreach ($this->oMoves as $oMove) {
-          $ttt->oMoves[]= $oMove;
-      }
-
-      $ttt->ply = $this->ply;
-      return $ttt;
-    } // end clone
+        $ttt = new TicTacToeBoard();
+        $ttt->xMoves = [];
+        $ttt->oMoves = [];
+        
+        foreach ($this->xMoves as $xMove) {
+            $ttt->xMoves[]= $xMove;
+        }
+        
+        foreach ($this->oMoves as $oMove) {
+            $ttt->oMoves[]= $oMove;
+        }
+        
+        $ttt->ply = $this->ply;
+        return $ttt;
+    } // end deepCopy
     
     /**
      * Scores a won position based on ply

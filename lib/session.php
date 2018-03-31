@@ -4,7 +4,9 @@
  * Contains handlers for persisting a session via database
  */
 final class Session {
+    private const TABLE_NAME = "sessions";
     private $db;
+
 
     /**
      * Constructs a new Session
@@ -41,7 +43,7 @@ final class Session {
 
         // Start session
         session_start();
-    }
+    } // end __construct
 
     /**
      * Handler for opening a session
@@ -50,7 +52,7 @@ final class Session {
      */
     public function open() { 
         return $this->db ? true : false; 
-    }
+    } // end open
 
     /**
      * Handler for closing a session
@@ -59,7 +61,7 @@ final class Session {
      */
     public function close() { 
         return $this->db->close();
-    }
+    } // end close
 
     /**
      * Handler for reading session data
@@ -69,14 +71,14 @@ final class Session {
      */
     public function read($id) {
         $id = $this->db->real_escape_string($id);
-        $result = $this->db->query("SELECT data FROM sessions WHERE id = '$id';");
+        $result = $this->db->query("SELECT data FROM " . Session::TABLE_NAME . " WHERE id = '$id';");
         
         if (isset($result) && $result && $result->num_rows === 1) {
             return $result->fetch_object()->data;
         }
        
         return "";
-    }
+    } // end read
 
     /**
      * Handler for writing session data
@@ -87,7 +89,7 @@ final class Session {
      */
     public function write($id, $data) {
         $expire = time();
-        $query = "REPLACE INTO sessions VALUES (?, ?, ?);";
+        $query = "REPLACE INTO " . Session::TABLE_NAME . " VALUES (?, ?, ?);";
         $statement = $this->db->prepare($query);
         $statement->bind_param("sss", $id, $expire, $data);
 
@@ -97,7 +99,7 @@ final class Session {
         }
 
         return false;
-    }
+    } // end write
 
     /**
      * Handler for destroying a session
@@ -107,8 +109,8 @@ final class Session {
      */
     public function destroy($id) {
         $id = $this->db->real_escape_string($id);
-        return $this->db->query("DELETE FROM sessions WHERE id = '$id';");
-    }
+        return $this->db->query("DELETE FROM " . Session::TABLE_NAME . " WHERE id = '$id';");
+    } // end destroy
 
     /**
      * Session garbage collector
@@ -118,8 +120,8 @@ final class Session {
      */
     public function gc($max) {
         $old = time() - $max;
-        return $this->db->query("DELETE FROM sessions WHERE 'access < $old';");
-    }
-}
+        return $this->db->query("DELETE FROM " . Session::TABLE_NAME . " WHERE 'access < $old';");
+    } // end gc
+} // end Session
 
 ?>

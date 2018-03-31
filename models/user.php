@@ -9,7 +9,7 @@ class User {
         "admin" => 1 << 7
     ];
 
-    private const TABLE_NAME = 'test_users';
+    private const TABLE_NAME = 'ttt_users';
 
     private $id;
     private $username;
