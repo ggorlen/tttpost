@@ -50,10 +50,105 @@ class NewGameController {
 
         // Show link to make new seek and list of available seeks
         include VIEWS . 'newgame/new_seek.php';
-        include VIEWS . 'newgame/show_seeks.php';
+
+        if ($seeks) {
+            $seeks = array_reverse($seekModel->getSeeks());
+            include VIEWS . 'newgame/show_seeks.php';
+        }
 
         include LAYOUTS . 'footer.php';
+        echo $this->getScript();
+        include LAYOUTS . 'end.php';
     } // end call
+
+    /**
+     * Returns the script associated with this controller
+     *
+     * @return string script
+     */
+    private function getScript() {
+        return <<<JS
+    <script>
+      "use strict";
+
+      function ajax(url, onSuccess, onFailure, requestType, contentType) {
+        var request = new XMLHttpRequest();
+
+        request.onreadystatechange = function () {
+          if (request.readyState === 4) {
+            if (request.status === 200) {
+              onSuccess(request.responseText);
+            }
+            else {
+              onFailure(request.responseText);
+            }
+          }
+        };
+
+        request.open(requestType ? requestType : "post", url);
+        request.setRequestHeader(
+          "Content-type", 
+          contentType ? contentType : "application/x-www-form-urlencoded"
+        );
+        return request;
+      }
+
+      (function () {
+        var newSeekRequest = ajax(
+          'index.php?page=newseek', 
+          function (responseText) { 
+            location.reload(); // TODO
+          },
+          function (responseText) { 
+            // TODO show error
+            console.log(responseText);
+          }
+        );
+        var newSeek = document.getElementById("ttt-new-seek-btn");
+
+        newSeek.addEventListener("click", function () {
+          newSeekRequest.send();
+          newSeekRequest = ajax(
+            'index.php?page=newseek', 
+            function (responseText) { 
+              location.reload(); // TODO
+            },
+            function (responseText) { 
+              // TODO show error
+              console.log(responseText);
+            }
+          );
+        });
+
+        var seeksContainer = document.getElementsByClassName("ttt-seeks-container")[0];
+        var seeks = document.getElementsByClassName("ttt-seek");
+
+        for (var i = 0; i < seeks.length; i++) {
+          (function() {
+            var removeSeekRequest = ajax(
+              'index.php?page=removeseek', 
+              function (responseText) { 
+              },
+              function (responseText) { 
+                // TODO show error
+                console.log(responseText);
+              }
+            );
+            var seeksId = seeks[i].id.split("-");
+            seeks[i].addEventListener("click", function (e) {
+              if (e.target.innerText === "remove seek") { // TODO brittle
+                this.parentNode.removeChild(this);
+                removeSeekRequest.send("id=" + seeksId[seeksId.length-1]);
+              }
+            });
+          })();
+        }
+      })();
+
+    </script>
+
+JS;
+    } // end getScript
 } // end NewGameController
 
 ?>

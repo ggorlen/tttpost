@@ -47,6 +47,7 @@ class ProfileController implements Controller {
         include LAYOUTS . 'navigation.php';
         include VIEWS . 'profile/profile.php';
         include LAYOUTS . 'footer.php';
+        include LAYOUTS . 'end.php';
     } // end call
 } // end ProfileController
 

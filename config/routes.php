@@ -2,13 +2,14 @@
 
 // List of valid routes 
 $routes = [
-  'home'      => 'HomeController',
-  'login'     => 'LoginController',
-  'logout'    => 'LogoutController',
-  'new'       => 'NewGameController',
-  'newseek'   => 'NewSeekController',
-  'profile'   => 'ProfileController',
-  'register'  => 'RegisterController',
+  'home'       => 'HomeController',
+  'login'      => 'LoginController',
+  'logout'     => 'LogoutController',
+  'new'        => 'NewGameController',
+  'newseek'    => 'NewSeekController',
+  'removeseek' => 'RemoveSeekController',
+  'profile'    => 'ProfileController',
+  'register'   => 'RegisterController',
 ];
 
 const DEFAULT_ROUTE = 'home';

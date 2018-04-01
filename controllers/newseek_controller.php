@@ -20,10 +20,6 @@ class NewSeekController {
      */
     public function call() {
 
-        // Check for requests for joining and creating seeks
-        if (isset($_POST) && count($_POST) > 0) {
-        }
-
         // Start a session
         $this->userModel->loadSession();
 

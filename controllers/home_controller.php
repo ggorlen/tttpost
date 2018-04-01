@@ -56,6 +56,7 @@ class HomeController {
         }
 
         include LAYOUTS . 'footer.php';
+        include LAYOUTS . 'end.php';
     } // end call
 
     /**

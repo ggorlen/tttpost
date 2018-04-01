@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Controller to handle requests for new seeks
+ * Controller to handle requests for destroying seeks
  */
 class RemoveSeekController {
     private $userModel;
@@ -20,10 +20,6 @@ class RemoveSeekController {
      */
     public function call() {
 
-        // Check for requests for joining and creating seeks
-        if (isset($_POST) && count($_POST) > 0) {
-        }
-
         // Start a session
         $this->userModel->loadSession();
 
@@ -31,18 +27,19 @@ class RemoveSeekController {
         $loggedIn = $this->userModel->loggedIn();
 
         // Redirect the user to home if not logged in
-        if (!$loggedIn) {
+        if (!$loggedIn || !isset($_POST) || count($_POST) === 0) {
             header("Location: index.php");
         }
 
         $username = $this->userModel->getUsername();
+        $userId = $this->userModel->getId();
         $permissions = $this->userModel->getPermissions();
         $admin = $this->userModel->getPermissions() & User::PERMISSIONS['admin'];
 
-        // Make a new seek
+        // Attempt removal of specified seek
         $seek = new Seeks();
-        echo $seek->newSeek($this->userModel->getId());
+        echo $seek->removeSeek($_POST["id"], $this->userModel);
     } // end call
-} // end NewSeekController
+} // end RemoveSeekController
 
 ?>

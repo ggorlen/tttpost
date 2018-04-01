@@ -98,18 +98,21 @@ footer > p {
   justify-content: center;
 }
 
-.entryway-container input {
+button, 
+input {
   font-family: monospace;
 }
 
-.entryway-container input[type=submit] {
+button,
+input[type=submit] {
   background: transparent;
   padding: 0.4em;
   width: 100%;
   border: 1px solid #777;
 }
 
-.entryway-container input[type=submit]:hover {
+button:hover, 
+input[type=submit]:hover {
   border: 1px solid #000;
   cursor: pointer;
 }
@@ -124,6 +127,13 @@ input[type=password] {
   color: #e00;
   list-style: none;
   padding: 0;
+}
+
+.no-bullet {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  
 }
 
 .inline-list {

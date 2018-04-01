@@ -20,7 +20,12 @@ final class Seeks {
      */
     public function getSeeks() {
         $query = '
-            SELECT * FROM ttt_seeks
+            SELECT 
+              ttt_seeks.id
+             ,ttt_seeks.user_id
+             ,ttt_seeks.timestamp
+             ,ttt_users.username
+            FROM ttt_seeks
             INNER JOIN ttt_users 
             ON ttt_seeks.user_id = ttt_users.id
             ;
@@ -52,19 +57,8 @@ final class Seeks {
      * @return true if successful, false otherwise
      */
     public function startGame($seekId) {
-        $query = '
-            SELECT draws FROM ttt_stats
-            INNER JOIN ttt_users
-            ON ttt_users.id = ttt_stats.id
-            WHERE ttt_stats.id = ' . $this->id . ';'
-        ;
-
-        $result = $this->db->query($query);
-
-        if ($result->num_rows === 1) {
-            $row = $result->fetch_object();
-            return (int)$row->draws;
-        }
+        
+        // TODO
 
         return null;
     } // end getDraws
@@ -88,14 +82,26 @@ final class Seeks {
      * Removes a seek by id
      *
      * @param $seekId the id of the seek to remove
+     * @param $user the user initiating the removal; 
+                    this user must be admin or owner of the seek
      * @return true if successful, false otherwise
      */
-    public function removeSeek($seekId) {
+    public function removeSeek($seekId, $user) {
         $seekId = $this->db->real_escape_string($seekId);
-        $query = '
-            DELETE FROM ttt_seeks
-            WHERE id = ' . $seekId . ';'
-        ;
+
+        if ($user->getPermissions() & User::PERMISSIONS['admin']) {
+          $query = '
+              DELETE FROM ttt_seeks
+              WHERE id = ' . $seekId . ';'
+          ;
+        }
+        else {
+          $query = '
+              DELETE FROM ttt_seeks
+              WHERE id = ' . $seekId . ' 
+              AND user_id = ' . $user->getId() . ';'
+          ;
+        }
         return $this->db->query($query);
     } // end removeSeek
 } // end Seeks
