@@ -19,12 +19,6 @@ class NewGameController {
      * Executes the controller action
      */
     public function call() {
-
-        // Check for requests for joining and creating seeks
-        if (isset($_POST) && count($_POST) > 0) {
-            var_dump($_POST);
-        }
-
         include LAYOUTS . 'header.php';
         include LAYOUTS . 'title.php';
 
@@ -52,7 +46,7 @@ class NewGameController {
         include VIEWS . 'newgame/new_seek.php';
 
         if ($seeks) {
-            $seeks = array_reverse($seekModel->getSeeks());
+            $seeks = array_reverse($seeks);
             include VIEWS . 'newgame/show_seeks.php';
         }
 
@@ -134,11 +128,26 @@ class NewGameController {
                 console.log(responseText);
               }
             );
+
+            var joinSeekRequest = ajax(
+              'index.php?page=joinseek', 
+              function (responseText) { 
+                location.reload(); // TODO
+              },
+              function (responseText) { 
+                // TODO show error
+                console.log(responseText);
+              }
+            );
             var seeksId = seeks[i].id.split("-");
             seeks[i].addEventListener("click", function (e) {
               if (e.target.innerText === "remove seek") { // TODO brittle
                 this.parentNode.removeChild(this);
                 removeSeekRequest.send("id=" + seeksId[seeksId.length-1]);
+              }
+              else if (e.target.innerText === "join game") { // TODO brittle
+                //this.parentNode.removeChild(this);
+                joinSeekRequest.send("id=" + seeksId[seeksId.length-1]);
               }
             });
           })();

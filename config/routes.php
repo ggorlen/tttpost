@@ -8,6 +8,7 @@ $routes = [
   'new'        => 'NewGameController',
   'newseek'    => 'NewSeekController',
   'removeseek' => 'RemoveSeekController',
+  'joinseek'   => 'JoinSeekController',
   'profile'    => 'ProfileController',
   'register'   => 'RegisterController',
 ];

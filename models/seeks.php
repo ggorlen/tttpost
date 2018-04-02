@@ -51,17 +51,64 @@ final class Seeks {
     } // end getSeeks
 
     /**
+     * Get the owner id of a seek
+     *
+     * @param $seekId the integer id of a seek
+     * @return integer user id if found, false otherwise
+     */
+    public function getSeekOwner($seekId) {
+        $this->db->real_escape_string($seekId);
+        $query = "
+            SELECT user_id FROM ttt_seeks
+            WHERE id = $seekId;
+        ";
+        $result = $this->db->query($query);
+
+        if ($result && $result->num_rows === 1 &&
+            $row = $result->fetch_object()) {
+            return intval($row->user_id);
+        }
+
+        return false;
+    } // end getSeekOwner
+
+    /**
      * Turns a seek into a game
      *
-     * @param $seekId the id of the player joining the seek
+     * @param $user the user joining the seek
      * @return true if successful, false otherwise
      */
-    public function startGame($seekId) {
-        
-        // TODO
+    public function joinSeek($seekId, $user) {
+        $ownerId = $this->getSeekOwner($seekId);
 
-        return null;
-    } // end getDraws
+        // Prevent user playing themself
+        if ($ownerId === $user->getId()) {
+            return false;
+        }
+
+        // Randomize sides
+        if (mt_rand(0, 1)) {
+            $id1 = $user->getId();
+            $id2 = $ownerId;
+        }
+        else {
+            $id1 = $ownerId;
+            $id2 = $user->getId();
+        }
+
+        // Try removing the seek and creating a game
+        if ($this->removeSeekByUserId($seekId, $ownerId)) {
+            $id1 = $this->db->real_escape_string($id1);
+            $id2 = $this->db->real_escape_string($id2);
+            $query = '
+                INSERT INTO ttt_games (player1_id, player2_id, start_time, ply)
+                VALUES (' . $id1 . ', ' . $id2 . ', ' . time() . ', 0);'
+            ;
+            return $this->db->query($query);
+        }
+
+        return false;
+    } // end joinSeek
 
     /**
      * Creates a new seek
@@ -82,28 +129,40 @@ final class Seeks {
      * Removes a seek by id
      *
      * @param $seekId the id of the seek to remove
-     * @param $user the user initiating the removal; 
-                    this user must be admin or owner of the seek
+     * @param $user the user initiating the removal (admin or seek owner)
      * @return true if successful, false otherwise
      */
     public function removeSeek($seekId, $user) {
         $seekId = $this->db->real_escape_string($seekId);
 
         if ($user->getPermissions() & User::PERMISSIONS['admin']) {
-          $query = '
-              DELETE FROM ttt_seeks
-              WHERE id = ' . $seekId . ';'
-          ;
+            $query = '
+                DELETE FROM ttt_seeks
+                WHERE id = ' . $seekId . ';'
+            ;
+            return $this->db->query($query);
         }
-        else {
-          $query = '
-              DELETE FROM ttt_seeks
-              WHERE id = ' . $seekId . ' 
-              AND user_id = ' . $user->getId() . ';'
-          ;
-        }
-        return $this->db->query($query);
+        
+        return $this->removeSeekByUserId($seekId, $user->getId());
     } // end removeSeek
+
+    /**
+     * Removes a seek by seek id and user id without an admin option
+     *
+     * @param $seekId the id of the seek to remove
+     * @param $userId the seek owner id initiating the removal
+     * @return true if successful, false otherwise
+     */
+    public function removeSeekByUserId($seekId, $userId) {
+        $seekId = $this->db->real_escape_string($seekId);
+        $userId = $this->db->real_escape_string($userId);
+        $query = '
+            DELETE FROM ttt_seeks
+            WHERE id = ' . $seekId . ' 
+            AND user_id = ' . $userId . ';'
+        ;
+        return $this->db->query($query);
+    } // end removeSeekByUserId
 } // end Seeks
 
 ?>

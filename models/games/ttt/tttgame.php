@@ -19,6 +19,9 @@ class TicTacToeGame implements Game {
 
     /**
      * Constructor for a TicTacToeGame object
+     *
+     * @param $data a hash of arguments representing a game:
+     *              id, end_time, move_time_limit
      */
     public function __construct($data) {
         $this->db = new DB(DBHOST, DBUSER, DBPASS, DATABASE);
@@ -89,9 +92,9 @@ class TicTacToeGame implements Game {
     } // end getBoard
 
     /**
-     * Returns the game's id
+     * Returns the game id
      *
-     * @return integer id
+     * @return integer game id
      */
     public function getID() {
         return $this->id;
@@ -103,7 +106,9 @@ class TicTacToeGame implements Game {
      * @return true if move successful, false otherwise
      */
     public function move($playerId, $square) {
+
         // TODO
+
     } // end getBoard
 
     /**
@@ -171,52 +176,48 @@ class TicTacToeGame implements Game {
     } // end getCurrentPlayer
 
     /**
-     * Returns the ply
+     * Returns the result of the game, if any
      *
-     * @return int ply
+     * @return string result
      */
     public function getResult() {
         return $this->result;
     } // end getResult
 
     /**
-     * TODO
-     * Returns the time the game ended in the format YYYY-MM-DD
+     * Returns the time the game ended
      *
-     * @return string the end time
+     * @return int the end time
      */
     public function getEndTime() {
-       return 0; 
+       return $this->endTime; 
     } // end getEndTime
 
     /**
-     * TODO
-     * Returns the time the game started in the format YYYY-MM-DD
+     * Returns the time the game started
      *
-     * @return string the start time
+     * @return int the start time
      */
     public function getStartTime() {
        return $this->startTime; 
     } // end getStartTime
 
     /**
-     * TODO
      * Returns the time the move time limit in seconds
      *
      * @return int the move time limit
      */
     public function getMoveTimeLimit() {
-        return 0;
+        return $this->moveTimeLimit;
     } // end getMoveTimeLimit
 
     /**
-     * TODO
      * Returns the time the game time limit in seconds
      *
      * @return int the game time limit
      */
     public function getGameTimeLimit() {
-        return 0;
+        return $this->gameTimeLimit;
     } // end getGameTimeLimit
 } // end TicTacToeGame
 
