@@ -11,6 +11,6 @@ interface Board {
     public function move($square);
     public function scoreWin();
     public function scoreDraw();
-}
+} // end Board
 
 ?>

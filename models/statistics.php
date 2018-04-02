@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Statistics class for a user
+ * Statistics model for a user
  */
 final class Stats {
     private $db;
@@ -20,7 +20,7 @@ final class Stats {
         $this->db = new DB(DBHOST, DBUSER, DBPASS, DATABASE);
         $this->user = $user;
         $this->id = $this->db->real_escape_string($this->user->getId());
-    }
+    } // end __construct
 
     /**
      * Returns the number of wins a user has
@@ -43,7 +43,7 @@ final class Stats {
         }
 
         return null;
-    }
+    } // end getWins
 
     /**
      * Returns the number of losses a user has
@@ -66,7 +66,7 @@ final class Stats {
         }
 
         return null;
-    }
+    } // endGetLosses
 
     /**
      * Returns the number of draws a user has
@@ -89,10 +89,10 @@ final class Stats {
         }
 
         return null;
-    }
-
+    } // end getDraws
 
     // TODO setters and interface
-}
+
+} // end Stats
 
 ?>

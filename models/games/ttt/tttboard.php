@@ -17,11 +17,11 @@ class TicTacToeBoard implements Board {
     /**
      * Constructor for a tic tac toe game board
      */
-    public function __construct($xMoves, $oMoves, $ply) { // TODO
+    public function __construct($xMoves, $oMoves, $ply) {
         $this->xMoves = $xMoves;
         $this->oMoves = $oMoves;
         $this->ply = $ply;
-    } // end construct
+    } // end __construct
 
     /**
      * Returns the board as an array

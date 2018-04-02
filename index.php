@@ -10,7 +10,8 @@ $dirs = [
   MODELS . '/*.php',
   MODELS . '/games/*.php',
   MODELS . '/games/ttt/*.php',
-  CONTROLLERS . '/*.php'
+  CONTROLLERS . '/*.php',
+  CONTROLLERS . '/helpers/*.php'
 ];
 
 // TODO glob recursively

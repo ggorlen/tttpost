@@ -4,7 +4,7 @@
  * Controller to handle requests for the home page
  */
 class HomeController {
-    private $model;
+    private $userModel;
 
     /**
      * Couples this controller with its model
@@ -12,7 +12,7 @@ class HomeController {
     public function __construct() {
 
         // Populate this model with a user object
-        $this->model = new User(DBHOST, DBUSER, DBPASS, DATABASE);
+        $this->userModel = new User(DBHOST, DBUSER, DBPASS, DATABASE);
     } // end __construct
 
     /**
@@ -23,20 +23,21 @@ class HomeController {
         include LAYOUTS . 'title.php';
 
         // Start a session
-        $this->model->loadSession();
+        $this->userModel->loadSession();
 
         // Determine whether user is logged in
-        $loggedIn = $this->model->loggedIn();
+        $loggedIn = $this->userModel->loggedIn();
 
         if ($loggedIn) {
-            $username = $this->model->getUsername();
-            $permissions = $this->model->getPermissions();
-            $admin = $this->model->getPermissions() & User::PERMISSIONS['admin'];
+            $username = $this->userModel->getUsername();
+            $permissions = $this->userModel->getPermissions();
+            $admin = $this->userModel->getPermissions() & User::PERMISSIONS['admin'];
 
             include LAYOUTS . 'navigation.php';
+            include LAYOUTS . 'content_start.php';
 
             // Retrieve list of current games
-            $games = $this->model->getCurrentGames();
+            $games = $this->userModel->getCurrentGames();
 
             if ($games && count($games) > 0) {
 
@@ -47,8 +48,13 @@ class HomeController {
                     $this->showGame($username, $game);
                 }
 
-                include VIEWS . 'ttt//ttt_board_grid_footer.php';
+                include VIEWS . 'ttt/ttt_board_grid_footer.php';
             }
+            else {
+                include VIEWS . 'ttt/ttt_board_empty.php';
+            }
+
+            include LAYOUTS . 'content_end.php';
         }
         else {
             include VIEWS . 'home/entryway.php';
@@ -56,6 +62,7 @@ class HomeController {
         }
 
         include LAYOUTS . 'footer.php';
+        echo $this->getScript();
         include LAYOUTS . 'end.php';
     } // end call
 
@@ -81,6 +88,68 @@ class HomeController {
 
         include VIEWS . 'ttt/ttt_board.php';
     } // end showGame
+
+    /**
+     * Returns the script associated with this controller
+     *
+     * @return string script
+     */
+    private function getScript() {
+        return getAjax() . <<<JS
+    <script>
+      "use strict";
+
+      (function () {
+        var movableSquares = document.getElementsByClassName("movable");
+
+        for (var i = 0; i < movableSquares.length; i++) {
+          movableSquares[i].addEventListener("click", function () {
+
+            // TODO
+            var gameId = this
+              .parentNode
+              .parentNode
+              .parentNode
+              .parentNode
+              .id
+              .split("-");
+            gameId = gameId[gameId.length-1];
+
+            var square = this.id.split("-");
+            square = square[square.length-1];
+
+            var moveRequest = ajax(
+              'index.php?page=move',
+              function (responseText) {
+                console.log(responseText);
+                //location.reload(); // TODO
+              },
+              function (responseText) {
+                // TODO show error
+                console.log(responseText);
+              }
+            );
+            moveRequest.send("game_id=" + gameId + "&square=" + square);
+            moveRequest = ajax(
+              'index.php?page=move',
+              function (responseText) {
+                console.log(responseText);
+                //location.reload(); // TODO
+              },
+              function (responseText) {
+                // TODO show error
+                console.log(responseText);
+              }
+            );
+          });
+        }  
+      })();
+
+    </script>
+
+JS;
+
+    } // end getScript
 } // end HomeController
 
 ?>

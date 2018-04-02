@@ -1,13 +1,17 @@
 # Tic Tac Toe Post
-A correspondence tic tac toe application very much in nativity. 
+Correspondence tic tac toe application very much in nativity. 
 
-This is a self-educational sketch towards a full-featured online abstract strategy game app.
+This is a self-educational sketch towards a more full-fledged version.
 
 ## Todos
-- Ability to make and join games
+- Ability to make moves and win/lose/draw/resign games
+- Clean up AJAX and add error messages
+- Clean up seek/game initialization models
 - End session if login detected from new device
 - Registration mail confirmation
 - Registration/login protection from robots
+- Chat
+- In depth statistics
 - Following/followers
 
 ## Potential future games

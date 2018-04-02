@@ -1,4 +1,4 @@
-      <div class="ttt-seeks-container">
+        <div class="ttt-seeks-container">
         <?php
           foreach ($seeks as $seek) {
             echo '<div class="ttt-seek" id="ttt-seek-' . $seek['id'] . '">
@@ -20,7 +20,7 @@
               echo '<div>[ admin <a href="#">remove seek</a> ]</div>';
             }
       
-            echo "</div>";
+            echo '</div>';
           }
         ?>
-      </div>
+        </div>

@@ -45,7 +45,9 @@ class ProfileController implements Controller {
         $draws = $stats->getDraws();
 
         include LAYOUTS . 'navigation.php';
+        include LAYOUTS . 'content_start.php';
         include VIEWS . 'profile/profile.php';
+        include LAYOUTS . 'content_end.php';
         include LAYOUTS . 'footer.php';
         include LAYOUTS . 'end.php';
     } // end call

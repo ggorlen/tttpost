@@ -27,8 +27,7 @@ final class Seeks {
              ,ttt_users.username
             FROM ttt_seeks
             INNER JOIN ttt_users 
-            ON ttt_seeks.user_id = ttt_users.id
-            ;
+            ON ttt_seeks.user_id = ttt_users.id;
         ';
         $result = $this->db->query($query);
 

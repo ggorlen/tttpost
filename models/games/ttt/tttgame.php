@@ -16,7 +16,6 @@ class TicTacToeGame implements Game {
     private $result;
     private $startTime;
 
-
     /**
      * Constructor for a TicTacToeGame object
      *
@@ -25,16 +24,18 @@ class TicTacToeGame implements Game {
      */
     public function __construct($data) {
         $this->db = new DB(DBHOST, DBUSER, DBPASS, DATABASE);
-        $this->id = intval($this->db->real_escape_string($data->id));
-        $this->endTime = intval($this->db->real_escape_string($data->end_time));
-        $this->moveTimeLimit = intval($this->db->real_escape_string($data->move_time_limit));
-        $this->gameTimeLimit = intval($this->db->real_escape_string($data->game_time_limit));
-        $this->player1 = intval($this->db->real_escape_string($data->player1_id));
-        $this->player2 = intval($this->db->real_escape_string($data->player2_id));
-        $this->result = $this->db->real_escape_string($data->result);
-        $this->startTime = intval($this->db->real_escape_string($data->start_time));
 
-        // Get player data
+        // Fetch instance data from args hash
+        $this->id = (int)$this->db->real_escape_string($data->id);
+        $this->endTime = (int)$this->db->real_escape_string($data->end_time);
+        $this->moveTimeLimit = (int)$this->db->real_escape_string($data->move_time_limit);
+        $this->gameTimeLimit = (int)$this->db->real_escape_string($data->game_time_limit);
+        $this->player1 = (int)$this->db->real_escape_string($data->player1_id);
+        $this->player2 = (int)$this->db->real_escape_string($data->player2_id);
+        $this->result = $this->db->real_escape_string($data->result);
+        $this->startTime = (int)$this->db->real_escape_string($data->start_time);
+
+        // Get player data from db
         $query = "SELECT username FROM ttt_users WHERE id = '$this->player1';";
         $result = $this->db->query($query);
 
@@ -49,7 +50,7 @@ class TicTacToeGame implements Game {
             $this->player2Username = $result->fetch_object()->username;
         }
         
-        // Get move data and build a board
+        // Populate move data from db
         $xMoves = [];
         $oMoves = [];
 
@@ -75,9 +76,10 @@ class TicTacToeGame implements Game {
             }
         }
 
+        // Create instance board
         $this->board = new TicTacToeBoard(
-            array_map("intval", $xMoves), 
-            array_map("intval", $oMoves), 
+            array_map('intval', $xMoves), 
+            array_map('intval', $oMoves), 
             count($xMoves) + count($oMoves)
         );
     } // end __construct

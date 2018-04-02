@@ -1,4 +1,3 @@
-<div class="content">
   <h2><?= $username ?></h2>
   <table>  
     <tr>
@@ -11,4 +10,3 @@
       <td>draws:</td><td> <?= isset($draws) ? $draws : 0 ?> </td>
     </tr>
   <table>  
-</div>

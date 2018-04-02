@@ -15,6 +15,6 @@ interface Game {
     public function getMoveTimeLimit();
     public function getGameTimeLimit();
     public function move($playerId, $square);
-}
+} // end Game
 
 ?>

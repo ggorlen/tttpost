@@ -1,4 +1,4 @@
-<div class="ttt-board" id="ttt-game-<?= $gameID ?>">
+<div class="ttt-board<?= $userHasMove ? " ttt-board-toplay" : "" ?>" id="ttt-game-<?= $gameID ?>">
   <table>
 
     <?php

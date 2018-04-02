@@ -7,9 +7,11 @@ html {
 
 body {
   font-family: 'Nanum Myeongjo', serif;
-  min-height: 100%;
   margin: 0;
   color: #444;
+  overflow-y: scroll;
+  width: 100%;
+  height: 100vh;
 }
 
 a, 
@@ -39,7 +41,8 @@ header {
   text-align: center;
 }
 
-nav, .site-description {
+nav, 
+.site-description {
   font-family: 'Nanum Gothic Coding', monospace;
   text-align: center;
   background-color: #222;
@@ -107,7 +110,6 @@ button,
 input[type=submit] {
   background: transparent;
   padding: 0.4em;
-  width: 100%;
   border: 1px solid #777;
 }
 
@@ -150,12 +152,18 @@ input[type=password] {
 .ttt-board-container {
   display: flex;
   flex-flow: row wrap;
+  justify-content: center;
 }
 
 .ttt-board {
   padding: 1em;
   margin: 1em;
+  font-size: 0.9em;
   font-family: 'Nanum Gothic Coding', monospace;
+}
+
+.ttt-board-toplay {
+  border: 1px solid #555;
 }
 
 .ttt-board table {
@@ -181,8 +189,13 @@ input[type=password] {
   cursor: pointer;
 }
 
+.ttt-board table td.movable:hover {
+  background: #f1f1f1;
+}
+
 .ttt-new-seek {
-  margin: 1em;
+  margin: 0.5em;
+  text-align: center;
 }
 
 #ttt-new-seek-btn {

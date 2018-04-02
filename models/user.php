@@ -32,7 +32,7 @@ class User {
         $this->session = new Session($dbhost, $dbuser, $dbpass, $database);
         $this->db = new DB($dbhost, $dbuser, $dbpass, $database);
         unset($dbhost, $dbuser, $dbpass, $database);
-    }
+    } // end __construct
 
     /**
      * Getter for id
@@ -41,7 +41,7 @@ class User {
      */
     public function getId() {
         return $this->id;
-    }
+    } // end getId
 
     /**
      * Getter for username
@@ -50,7 +50,7 @@ class User {
      */
     public function getUsername() {
         return $this->username;
-    }
+    } // end getUsername
 
     /**
      * Getter for permissions
@@ -59,7 +59,7 @@ class User {
      */
     public function getPermissions() {
         return $this->permissions;
-    }
+    } // endGetPermissions
 
     /**
      * Returns whether this user is logged in
@@ -68,7 +68,7 @@ class User {
      */
     public function loggedIn() {
         return isset($_SESSION["User"]) && $_SESSION["User"] === $this->username;
-    }
+    } // end loggedIn
 
     /**
      * Load a session for this user if possible
@@ -97,7 +97,7 @@ class User {
         }
 
         return false;
-    }
+    } // end loadSession
 
     /**
      * Logs in a user, saving their username in a $_SESSION variable
@@ -129,7 +129,7 @@ class User {
         }
 
         return false;
-    }
+    } // end login
 
     /**
      * Logs this user out
@@ -140,7 +140,7 @@ class User {
         $result = session_destroy();
         unset($_SESSION[$this->username]);
         return $result;
-    }
+    } // end logout
 
     /**
      * Registers a new user
@@ -173,7 +173,7 @@ class User {
 
         $statement->close();
         return false;
-    }
+    } // end register
 
     /**
      * Retrieves a list of current games for this user
@@ -196,7 +196,7 @@ class User {
         }
 
         return false;
-    }  
+    } // getCurrentGames
 
     // TODO
     private function unregister($password) {}
@@ -204,6 +204,6 @@ class User {
     private function changePassword($password, $newPassword) {}
     private function changeEmail($password, $email) {}
     private function changePermissions($targetUsername, $newPermissions) {}
-}
+} // end User
 
 ?>

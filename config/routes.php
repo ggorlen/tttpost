@@ -5,6 +5,7 @@ $routes = [
   'home'       => 'HomeController',
   'login'      => 'LoginController',
   'logout'     => 'LogoutController',
+  'move'       => 'MoveController',
   'new'        => 'NewGameController',
   'newseek'    => 'NewSeekController',
   'removeseek' => 'RemoveSeekController',
