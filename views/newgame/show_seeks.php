@@ -1,26 +1,42 @@
         <div class="ttt-seeks-container">
+          <table>
+            <tr>
+              <th>
+                user
+              </th>
+              <th>
+                created
+              </th>
+              <th>
+                action
+              </th>
+            </tr>
         <?php
           foreach ($seeks as $seek) {
-            echo '<div class="ttt-seek" id="ttt-seek-' . $seek['id'] . '">
-                    <div>
-                      user: ' . $seek['username'] . 
-                   '</div>
-                    <div>
-                      created: ' . date('Y/m/d h:i A', $seek['timestamp']) .
-                   '</div>';
+            echo '<tr class="ttt-seek" id="ttt-seek-' . $seek['id'] . '">
+                    <td>
+                      ' . $seek['username'] . 
+                   '</td>
+                    <td>
+                      ' . date('Y/m/d h:i A', $seek['timestamp']) .
+                   '</td>';
       
             if ($seek['user_id'] === $userId) {
-              echo '<div><a href="#">remove seek</a></div>';
+              echo '<td><a href="javascript:void(0)">remove</a></td>';
             }
             else {
-              echo '<div><a href="#">join game</a></div>';
+              echo '<td><a href="javascript:void(0)">join</a>';
+
+              if ($admin) {
+                echo ' [admin <a href="javascript:void(0)">remove</a>]';
+              }
+
+              echo '</td>';
             }
       
-            if ($admin) {
-              echo '<div>[ admin <a href="#">remove seek</a> ]</div>';
-            }
       
-            echo '</div>';
+            echo '</tr>';
           }
         ?>
+          </table>
         </div>

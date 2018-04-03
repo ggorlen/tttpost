@@ -101,7 +101,7 @@ class NewGameController {
           var seeksId = seeks[i].id.split("-");
           seeks[i].addEventListener("click", function (e) {
             
-            if (e.target.innerText === "remove seek") { // TODO brittle
+            if (e.target.innerText === "remove") { // TODO brittle
               this.parentNode.removeChild(this);
               var removeSeekRequest = ajax(
                 'index.php?page=removeseek', 
@@ -114,7 +114,7 @@ class NewGameController {
               );
               removeSeekRequest.send("id=" + seeksId[seeksId.length-1]);
             }
-            else if (e.target.innerText === "join game") { // TODO brittle
+            else if (e.target.innerText === "join") { // TODO brittle
               //this.parentNode.removeChild(this);
               var joinSeekRequest = ajax(
                 'index.php?page=joinseek', 

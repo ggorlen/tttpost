@@ -27,7 +27,9 @@ class MoveController {
         $loggedIn = $this->userModel->loggedIn();
 
         // Redirect the user to home if not logged in
-        if (!$loggedIn) {
+        if (!$loggedIn || count($_POST) < 2 || 
+            !isset($_POST["game_id"]) || 
+            !isset($_POST["square"])) {
             header("Location: index.php");
         }
 
@@ -35,8 +37,12 @@ class MoveController {
         $permissions = $this->userModel->getPermissions();
         $admin = $this->userModel->getPermissions() & User::PERMISSIONS['admin'];
 
-        // make game object by id
-        echo move($this->userModel->getId(), $square);
+        // Make game object by id and apply move to it
+        $game = $this->userModel->getGameById((int)$_POST["game_id"]);
+        echo $game->move((int)$this->userModel->getId(), (int)$_POST["square"]);
+
+        // return the new board or false
+
     } // end call
 } // end MoveController
 

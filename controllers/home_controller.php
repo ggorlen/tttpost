@@ -122,7 +122,7 @@ class HomeController {
               'index.php?page=move',
               function (responseText) {
                 console.log(responseText);
-                //location.reload(); // TODO
+                location.reload(); // TODO
               },
               function (responseText) {
                 // TODO show error
@@ -134,7 +134,7 @@ class HomeController {
               'index.php?page=move',
               function (responseText) {
                 console.log(responseText);
-                //location.reload(); // TODO
+                location.reload(); // TODO
               },
               function (responseText) {
                 // TODO show error

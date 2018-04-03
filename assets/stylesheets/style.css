@@ -6,7 +6,7 @@ html {
 }
 
 body {
-  font-family: 'Nanum Myeongjo', serif;
+  font-family: 'Nanum Gothic Coding', monospace;
   margin: 0;
   color: #444;
   overflow-y: scroll;
@@ -160,6 +160,7 @@ input[type=password] {
   margin: 1em;
   font-size: 0.9em;
   font-family: 'Nanum Gothic Coding', monospace;
+  border: 1px solid transparent;
 }
 
 .ttt-board-toplay {
@@ -203,9 +204,16 @@ input[type=password] {
 }
 
 .ttt-seeks-container {
-  margin: 1em;
-  display: flex;
-  flex-flow: row wrap;
+  font-family: 'Nanum Gothic Coding', monospace;
+  margin: 2em;
+}
+
+.ttt-seeks-container table {
+  border-collapse: collapse;
+}
+
+.ttt-seeks-container table td {
+  padding: 1em;
 }
 
 .ttt-seek {

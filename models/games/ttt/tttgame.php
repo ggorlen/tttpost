@@ -108,9 +108,35 @@ class TicTacToeGame implements Game {
      * @return true if move successful, false otherwise
      */
     public function move($playerId, $square) {
+        if ($this->getCurrentPlayer() === $playerId) {
+            if ($this->board->move($square)) {
+                $square = $this->db->real_escape_string($square);
+                $playerId = $this->db->real_escape_string($playerId);
+                $query = "
+                    INSERT INTO ttt_moves (
+                      game_id, 
+                      player_id, 
+                      ply, 
+                      end_location
+                    ) 
+                    VALUES (
+                      '" . $this->id . "',
+                      '" . $playerId . "',
+                      '" . $this->board->getPly() . "',
+                      '" . $square . "'
+                    );
+                ";
+                $result = $this->db->query($query);
 
-        // TODO
+                if ($result) {
+                    return true;
+                }
 
+                return false;
+            }
+        }
+
+        return false;
     } // end getBoard
 
     /**

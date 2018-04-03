@@ -176,6 +176,23 @@ class User {
     } // end register
 
     /**
+     * Retrieves a game by id
+     *
+     * @return Game object
+     */
+    public function getGameById($id) {
+        $query = "SELECT * FROM ttt_games 
+                  WHERE id = '$id'";
+        $result = $this->db->query($query);
+        
+        if ($result && $result->num_rows === 1) {
+            return new TicTacToeGame($result->fetch_object());
+        }
+
+        return false;
+    } // getGameById
+
+    /**
      * Retrieves a list of current games for this user
      *
      * @return an array of Game objects
