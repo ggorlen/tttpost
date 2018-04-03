@@ -4,7 +4,7 @@ Correspondence tic tac toe application very much in nativity.
 This is a self-educational sketch towards a more full-fledged version.
 
 ## Todos
-- Ability to make moves and win/lose/draw/resign games
+- Ability win/lose/draw/resign games and update stats
 - Clean up AJAX and add error messages
 - Clean up seek/game initialization models
 - End session if login detected from new device

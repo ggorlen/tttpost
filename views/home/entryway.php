@@ -1,6 +1,3 @@
-    <div class="site-description">
-      <i>Correspondence tic tac toe at your fingertips</i>
-    </div>
     <div class="entryway-container">
       <div id="register-container">
         <h2>Register</h2>

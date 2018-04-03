@@ -38,7 +38,7 @@ class RemoveSeekController {
 
         // Attempt removal of specified seek
         $seek = new Seeks();
-        echo $seek->removeSeek($_POST["id"], $this->userModel);
+        echo $seek->removeSeek((int)$_POST["id"], $this->userModel);
     } // end call
 } // end RemoveSeekController
 

@@ -59,6 +59,15 @@ final class DB {
     public function prepare($query) {
         return $this->db->prepare($query);
     }
+
+    /**
+     * Returns a count of affected rows for the previous query
+     *
+     * @return integer number of affected rows in the last query
+     */
+    public function affected_rows() {
+        return mysqli_affected_rows($this->db);
+    }
 }
 
 ?>

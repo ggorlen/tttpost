@@ -85,7 +85,7 @@ class NewGameController {
           newSeekRequest = ajax(
             'index.php?page=newseek', 
             function (responseText) { 
-              location.reload(); // TODO
+              //location.reload(); // TODO
             },
             function (responseText) { 
               // TODO show error
@@ -98,27 +98,17 @@ class NewGameController {
         var seeks = document.getElementsByClassName("ttt-seek");
 
         for (var i = 0; i < seeks.length; i++) {
-          var seeksId = seeks[i].id.split("-");
           seeks[i].addEventListener("click", function (e) {
+            var id = e.target.parentNode.parentNode.id.split("-");
+            id = id[id.length-1];
             
             if (e.target.innerText === "remove") { // TODO brittle
-              this.parentNode.removeChild(this);
+              var self = this;
               var removeSeekRequest = ajax(
                 'index.php?page=removeseek', 
                 function (responseText) { 
-                },
-                function (responseText) { 
-                  // TODO show error
                   console.log(responseText);
-                }
-              );
-              removeSeekRequest.send("id=" + seeksId[seeksId.length-1]);
-            }
-            else if (e.target.innerText === "join") { // TODO brittle
-              //this.parentNode.removeChild(this);
-              var joinSeekRequest = ajax(
-                'index.php?page=joinseek', 
-                function (responseText) { 
+                  //self.parentNode.removeChild(self);
                   location.reload(); // TODO
                 },
                 function (responseText) { 
@@ -126,7 +116,22 @@ class NewGameController {
                   console.log(responseText);
                 }
               );
-              joinSeekRequest.send("id=" + seeksId[seeksId.length-1]);
+              removeSeekRequest.send("id=" + id);
+            }
+            else if (e.target.innerText === "join") { // TODO brittle
+              //this.parentNode.removeChild(this);
+              var joinSeekRequest = ajax(
+                'index.php?page=joinseek', 
+                function (responseText) { 
+                  console.log(responseText);
+                  location.reload(); // TODO
+                },
+                function (responseText) { 
+                  // TODO show error
+                  console.log(responseText);
+                }
+              );
+              joinSeekRequest.send("id=" + id);
             }
           });
         }

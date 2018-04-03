@@ -5,6 +5,7 @@
  */
 class TicTacToeGame implements Game {
     private const GAME_TYPE = 'tic tac toe';
+
     private $db;
     private $id;
     private $endTime;
@@ -50,7 +51,7 @@ class TicTacToeGame implements Game {
             $this->player2Username = $result->fetch_object()->username;
         }
         
-        // Populate move data from db
+        // Populate move data hashes from db
         $xMoves = [];
         $oMoves = [];
 
@@ -61,7 +62,7 @@ class TicTacToeGame implements Game {
 
         if ($result && $result->num_rows > 0) {
             while ($moveData = $result->fetch_object()) {
-                $xMoves[]= $moveData->end_location;
+                $xMoves[$moveData->end_location] = true;
             }
         }
 
@@ -72,7 +73,7 @@ class TicTacToeGame implements Game {
 
         if ($result && $result->num_rows > 0) {
             while ($moveData = $result->fetch_object()) {
-                $oMoves[]= $moveData->end_location;
+                $oMoves[$moveData->end_location] = true;
             }
         }
 
@@ -83,6 +84,17 @@ class TicTacToeGame implements Game {
             count($xMoves) + count($oMoves)
         );
     } // end __construct
+
+    /**
+     * Sets and returns the result (e.g. win/loss/draw)
+     *
+     * @return string result
+     */
+    public function checkResult() {
+
+        // TODO
+
+    } // end checkResult
 
     /**
      * Returns the game board
@@ -126,18 +138,12 @@ class TicTacToeGame implements Game {
                       '" . $square . "'
                     );
                 ";
-                $result = $this->db->query($query);
-
-                if ($result) {
-                    return true;
-                }
-
-                return false;
+                return $this->db->query($query);
             }
         }
 
         return false;
-    } // end getBoard
+    } // end move
 
     /**
      * Returns the game type

@@ -57,6 +57,7 @@ class HomeController {
             include LAYOUTS . 'content_end.php';
         }
         else {
+            include VIEWS . 'home/site_description.php';
             include VIEWS . 'home/entryway.php';
             include HELPERS . 'errors.php';
         }

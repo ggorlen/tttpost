@@ -32,10 +32,10 @@ class TicTacToeBoard implements Board {
         $board = [];
 
         for ($i = 0; $i < 9; $i++) {
-            if (in_array($i, $this->xMoves)) {
+            if (array_key_exists($i, $this->xMoves)) {
                 $board[]= "x";
             }
-            else if (in_array($i, $this->oMoves)) {
+            else if (array_key_exists($i, $this->oMoves)) {
                 $board[]= "o";
             }
             else {
@@ -53,6 +53,7 @@ class TicTacToeBoard implements Board {
      * @return true if move was executed, false otherwise
      */
     public function move($square) {
+        var_dump($this->oMoves);
         if ($square >= 0 && $square <= 8) { 
             if ($this->ply & 1 && !array_key_exists($square, $this->oMoves)) {
                 $this->oMoves[$square] = true;

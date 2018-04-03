@@ -65,7 +65,7 @@ final class Seeks {
 
         if ($result && $result->num_rows === 1 &&
             $row = $result->fetch_object()) {
-            return intval($row->user_id);
+            return (int)$row->user_id;
         }
 
         return false;
@@ -155,12 +155,18 @@ final class Seeks {
     public function removeSeekByUserId($seekId, $userId) {
         $seekId = $this->db->real_escape_string($seekId);
         $userId = $this->db->real_escape_string($userId);
+        echo $seekId . "\n";
+        echo $userId . "\n";
         $query = '
             DELETE FROM ttt_seeks
             WHERE id = ' . $seekId . ' 
             AND user_id = ' . $userId . ';'
         ;
-        return $this->db->query($query);
+        var_dump($seekId);
+        var_dump($userId);
+        $result = $this->db->query($query);
+        var_dump($this->db->affected_rows());
+        return $result && $this->db->affected_rows();
     } // end removeSeekByUserId
 } // end Seeks
 
