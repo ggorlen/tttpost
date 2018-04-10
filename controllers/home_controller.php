@@ -3,7 +3,7 @@
 /**
  * Controller to handle requests for the home page
  */
-class HomeController {
+class HomeController implements Controller {
     private $userModel;
 
     /**
@@ -73,7 +73,7 @@ class HomeController {
     private function showGame($username, $game) {
         $board = $game->getBoard();
         $gameID = $game->getId();
-        $startTime = date("Y/m/d h:m A", $game->getStartTime());
+        $startTime = date("Y/m/d h:i A", $game->getStartTime());
         $player1 = $game->getPlayer1();
         $player2 = $game->getPlayer2();
         $player1Username = $game->getPlayer1Username();

@@ -3,7 +3,7 @@
 /**
  * Controller to handle requests for destroying seeks
  */
-class RemoveSeekController {
+class RemoveSeekController implements Controller {
     private $userModel;
 
     /**

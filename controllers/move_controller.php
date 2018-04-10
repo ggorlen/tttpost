@@ -3,7 +3,7 @@
 /**
  * Controller to handle requests for new seeks
  */
-class MoveController {
+class MoveController implements Controller {
     private $userModel;
 
     /**

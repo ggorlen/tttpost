@@ -197,15 +197,15 @@ input[type=password] {
   font-size: 1.2em;
 }
 
-.ttt-seeks-container {
+#ttt-seeks-container {
   margin: 2em;
 }
 
-.ttt-seeks-container table {
+#ttt-seeks-container table {
   border-collapse: collapse;
 }
 
-.ttt-seeks-container table td {
+#ttt-seeks-container table td {
   padding: 1em;
 }
 

@@ -3,7 +3,7 @@
 /**
  * Controller to handle requests for new seeks
  */
-class NewSeekController {
+class NewSeekController implements Controller {
     private $userModel;
 
     /**
@@ -37,7 +37,17 @@ class NewSeekController {
 
         // Make a new seek
         $seek = new Seeks();
-        echo $seek->newSeek($this->userModel->getId());
+
+        if ($seek->newSeek($this->userModel->getId())) {
+
+            // Return updated seek view
+            // TODO: just return the new seek
+            include VIEWS . 'seeks/format_seeks.php';
+            echo formatSeeks($seek->getSeeks(), $this->userModel->getId(), $admin);
+        }
+
+        // Seek creation failed
+        return false;
     } // end call
 } // end NewSeekController
 

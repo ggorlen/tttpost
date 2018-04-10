@@ -3,7 +3,7 @@
 /**
  * Controller to handle requests for joining a seek
  */
-class JoinSeekController {
+class JoinSeekController implements Controller {
     private $userModel;
 
     /**

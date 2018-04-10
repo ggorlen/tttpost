@@ -20,3 +20,4 @@ This is a self-educational sketch towards a more full-fledged version.
 
 ## References
 - DB model for games: http://www.vertabelo.com/blog/technical-articles/a-database-model-for-simple-board-games
+- Keeping session open after browser closed: https://stackoverflow.com/questions/3684620/is-possible-to-keep-session-even-after-the-browser-is-closed
