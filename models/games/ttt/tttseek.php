@@ -2,12 +2,13 @@
 
 /**
  * Model for a Tic Tac Toe game seek
+ *
+ * TODO: not used
  */
 class TicTacToeSeek {
     private const TABLE_NAME = 'ttt_seeks';
     private $db;
     private $userId;
-
 
     /**
      * Constructor for a TicTacToeSeek object

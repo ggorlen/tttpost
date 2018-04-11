@@ -39,10 +39,15 @@ class MoveController implements Controller {
 
         // Make game object by id and apply move to it
         $game = $this->userModel->getGameById((int)$_POST["game_id"]);
-        echo $game->move((int)$this->userModel->getId(), (int)$_POST["square"]);
 
-        // return the new board or false
+        if ($game->move((int)$this->userModel->getId(), (int)$_POST["square"])) {
 
+            // Set the result of the game if applicable
+            $game->setResult();
+            return true;
+        }
+
+        return false;
     } // end call
 } // end MoveController
 

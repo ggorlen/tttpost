@@ -12,8 +12,10 @@ class TicTacToeGame implements Game {
     private $moveTimeLimit;
     private $gameTimeLimit;
     private $board;
-    private $player1;
-    private $player2;
+    private $player1Id;
+    private $player2Id;
+    private $player1Username;
+    private $player2Username;
     private $result;
     private $startTime;
 
@@ -31,20 +33,20 @@ class TicTacToeGame implements Game {
         $this->endTime = (int)$this->db->real_escape_string($data->end_time);
         $this->moveTimeLimit = (int)$this->db->real_escape_string($data->move_time_limit);
         $this->gameTimeLimit = (int)$this->db->real_escape_string($data->game_time_limit);
-        $this->player1 = (int)$this->db->real_escape_string($data->player1_id);
-        $this->player2 = (int)$this->db->real_escape_string($data->player2_id);
         $this->result = $this->db->real_escape_string($data->result);
         $this->startTime = (int)$this->db->real_escape_string($data->start_time);
+        $this->player1Id = (int)$this->db->real_escape_string($data->player1_id);
+        $this->player2Id = (int)$this->db->real_escape_string($data->player2_id);
 
         // Get player data from db
-        $query = "SELECT username FROM ttt_users WHERE id = '$this->player1';";
+        $query = "SELECT username FROM ttt_users WHERE id = '$this->player1Id';";
         $result = $this->db->query($query);
 
         if ($result && $result->num_rows === 1) {
             $this->player1Username = $result->fetch_object()->username;
         }
 
-        $query = "SELECT username FROM ttt_users WHERE id = '$this->player2';";
+        $query = "SELECT username FROM ttt_users WHERE id = '$this->player2Id';";
         $result = $this->db->query($query);
 
         if ($result && $result->num_rows === 1) {
@@ -57,7 +59,7 @@ class TicTacToeGame implements Game {
 
         $query = "SELECT end_location FROM ttt_moves 
                   WHERE game_id = '$this->id' 
-                  AND player_id = '$this->player1';";
+                  AND player_id = '" . $this->player1Id . "';";
         $result = $this->db->query($query);
 
         if ($result && $result->num_rows > 0) {
@@ -68,7 +70,7 @@ class TicTacToeGame implements Game {
 
         $query = "SELECT end_location FROM ttt_moves 
                   WHERE game_id = '$this->id' 
-                  AND player_id = '$this->player2';";
+                  AND player_id = '" . $this->player2Id . "';";
         $result = $this->db->query($query);
 
         if ($result && $result->num_rows > 0) {
@@ -86,15 +88,56 @@ class TicTacToeGame implements Game {
     } // end __construct
 
     /**
-     * Sets and returns the result (e.g. win/loss/draw)
+     * Sets and the result (e.g. win/loss/draw)
      *
-     * @return string result
+     * @return true if result was successfully set, false otherwise
      */
-    public function checkResult() {
+    public function setResult() {
+        if ($this->board->isWon()) {
+            $this->result = $this->board->getPly() & 1 ? "1-0" : "0-1";
+            $this->endTime = time();
+            $query = "
+                UPDATE ttt_games
+                SET result = '$this->result',
+                end_time = $this->endTime 
+                WHERE id = $this->id;
+            ";
 
-        // TODO
+            if ($this->db->query($query)) {
+                $p1Stat = new Stats($this->player1Id);
+                $p2Stat = new Stats($this->player2Id);
 
-    } // end checkResult
+                if ($this->result === "1-0") {
+                    $p1Stat->addWin();
+                    $p2Stat->addLoss();
+                }
+                else {
+                    $p1Stat->addLoss();
+                    $p2Stat->addWin();
+                }
+            }
+
+            return false;
+        }
+        else if ($this->board->isDrawn()) {
+            $this->result = "0-0";
+            $this->endTime = time();
+            $query = "
+                UPDATE ttt_games
+                SET result = '$this->result',
+                end_time = '$this->endTime' 
+                WHERE id = '$this->id';
+            ";
+            if ($this->db->query($query)) {
+                $p1Stat = new Stats($this->player1Id);
+                $p2Stat = new Stats($this->player2Id);
+                $p1Stat->addDraw();
+                $p2Stat->addDraw();
+            }
+        }
+
+        return false;
+    } // end setResult
 
     /**
      * Returns the game board
@@ -160,7 +203,7 @@ class TicTacToeGame implements Game {
      * @return int id of player1
      */
     public function getPlayer1() {
-        return $this->player1;
+        return $this->player1Id;
     } // end getPlayer1
 
     /**
@@ -169,7 +212,7 @@ class TicTacToeGame implements Game {
      * @return int id of player2
      */
     public function getPlayer2() {
-        return $this->player2;
+        return $this->player2Id;
     } // end getPlayer2
 
     /**
@@ -205,8 +248,7 @@ class TicTacToeGame implements Game {
      * @return int the current player id
      */
     public function getCurrentPlayer() {
-        return $this->board->getPly() & 1 ? 
-               $this->player2 : $this->player1;
+        return $this->board->getPly() & 1 ? $this->player2Id : $this->player1Id;
     } // end getCurrentPlayer
 
     /**

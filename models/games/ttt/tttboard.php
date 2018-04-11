@@ -53,8 +53,7 @@ class TicTacToeBoard implements Board {
      * @return true if move was executed, false otherwise
      */
     public function move($square) {
-        var_dump($this->oMoves);
-        if ($square >= 0 && $square <= 8) { 
+        if ($square >= 0 && $square <= 8 && !$this->isWon() && !$this->isDrawn()) { 
             if ($this->ply & 1 && !array_key_exists($square, $this->oMoves)) {
                 $this->oMoves[$square] = true;
                 $this->ply++;
@@ -75,7 +74,7 @@ class TicTacToeBoard implements Board {
      *
      * @return true if a player has won, false otherwise
      */
-     public function isWon() {
+    public function isWon() {
          if ($this->ply >= 5) {
              for ($i = 0; $i < count(TicTacToeBoard::$winPositions); $i++) {
                  $xWon = true;
@@ -113,13 +112,12 @@ class TicTacToeBoard implements Board {
      * @return valid moves array
      */
     public function getMoves() {
-        $possibleMoves = [0, 1, 2, 3, 4, 5, 6, 7, 8];
         $moves = [];
         
-        foreach ($possibleMoves as $move) {
-            if (!array_key_exists($move, $this->xMoves) &&
-                !array_key_exists($move, $this->oMoves)) {
-                $moves[]= $move;
+        for ($i = 0; $i < 9; $i++) {
+            if (!array_key_exists($i, $this->xMoves) &&
+                !array_key_exists($i, $this->oMoves)) {
+                $moves[]= $i;
             }
         }
         

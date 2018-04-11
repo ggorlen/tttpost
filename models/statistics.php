@@ -5,8 +5,7 @@
  */
 final class Stats {
     private $db;
-    private $user;
-    private $id;
+    private $userId;
     private $wins;
     private $losses;
     private $draws;
@@ -16,11 +15,14 @@ final class Stats {
      *
      * @param $user the user
      */
-    public function __construct($user) {
+    public function __construct($userId) {
         $this->db = new DB(DBHOST, DBUSER, DBPASS, DATABASE);
-        $this->user = $user;
-        $this->id = $this->db->real_escape_string($this->user->getId());
+        $this->userId = $userId;
     } // end __construct
+
+
+    // Todo function to create stats record upon user registration
+
 
     /**
      * Returns the number of wins a user has
@@ -30,11 +32,8 @@ final class Stats {
     public function getWins() {
         $query = '
             SELECT wins FROM ttt_stats
-            INNER JOIN ttt_users
-            ON ttt_users.id = ttt_stats.id
-            WHERE ttt_stats.id = ' . $this->id . ';'
+            WHERE id = ' . $this->userId . ';'
         ;
-
         $result = $this->db->query($query);
 
         if ($result->num_rows === 1) {
@@ -53,11 +52,8 @@ final class Stats {
     public function getLosses() {
         $query = '
             SELECT losses FROM ttt_stats
-            INNER JOIN ttt_users
-            ON ttt_users.id = ttt_stats.id
-            WHERE ttt_stats.id = ' . $this->id . ';'
+            WHERE id = ' . $this->userId . ';'
         ;
-
         $result = $this->db->query($query);
 
         if ($result->num_rows === 1) {
@@ -76,11 +72,8 @@ final class Stats {
     public function getDraws() {
         $query = '
             SELECT draws FROM ttt_stats
-            INNER JOIN ttt_users
-            ON ttt_users.id = ttt_stats.id
-            WHERE ttt_stats.id = ' . $this->id . ';'
+            WHERE id = ' . $this->userId . ';'
         ;
-
         $result = $this->db->query($query);
 
         if ($result->num_rows === 1) {
@@ -91,8 +84,47 @@ final class Stats {
         return null;
     } // end getDraws
 
-    // TODO setters and interface
+    /**
+     * Increment the number of wins for a user by 1
+     *
+     * @return true if query successful, false otherwise
+     */
+    public function addWin() {
+        $query = '
+            UPDATE ttt_stats
+            SET wins = wins + 1 
+            WHERE id = ' . $this->userId . ';'
+        ;
+        return $this->db->query($query);
+    } // end addWin
 
+    /**
+     * Increment the number of draws for a user by 1
+     *
+     * @return true if query successful, false otherwise
+     */
+    public function addDraw() {
+        $query = '
+            UPDATE ttt_stats
+            SET draw = draw + 1 
+            WHERE id = ' . $this->userId . ';'
+        ;
+        return $this->db->query($query);
+    } // end addDraw
+
+    /**
+     * Increment the number of losses for a user by 1
+     *
+     * @return true if query successful, false otherwise
+     */
+    public function addLoss() {
+        $query = '
+            UPDATE ttt_stats
+            SET losses = losses + 1 
+            WHERE id = ' . $this->userId . ';'
+        ;
+        return $this->db->query($query);
+    } // end addLosses
 } // end Stats
 
 ?>
