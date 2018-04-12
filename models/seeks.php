@@ -4,6 +4,8 @@
  * Seeks model
  */
 final class Seeks {
+    public const TABLE_NAME = 'ttt_seeks';
+
     private $db;
 
     /**
@@ -21,13 +23,13 @@ final class Seeks {
     public function getSeeks() {
         $query = '
             SELECT 
-              ttt_seeks.id
-             ,ttt_seeks.user_id
-             ,ttt_seeks.timestamp
-             ,ttt_users.username
-            FROM ttt_seeks
-            INNER JOIN ttt_users 
-            ON ttt_seeks.user_id = ttt_users.id;
+              ' . Seeks::TABLE_NAME . '.id
+             ,' . Seeks::TABLE_NAME . '.user_id
+             ,' . Seeks::TABLE_NAME . '.timestamp
+             ,' . User::TABLE_NAME . '.username
+            FROM ' . Seeks::TABLE_NAME . ' 
+            INNER JOIN ' . User::TABLE_NAME .  ' 
+            ON ' . Seeks::TABLE_NAME . '.user_id = ' . User::TABLE_NAME . '.id;
         ';
         $result = $this->db->query($query);
 
@@ -57,10 +59,10 @@ final class Seeks {
      */
     public function getSeekOwner($seekId) {
         $this->db->real_escape_string($seekId);
-        $query = "
-            SELECT user_id FROM ttt_seeks
-            WHERE id = $seekId;
-        ";
+        $query = '
+            SELECT user_id FROM ' . Seeks::TABLE_NAME . ' 
+            WHERE id = ' . $seekId . ';'
+        ;
         $result = $this->db->query($query);
 
         if ($result && $result->num_rows === 1 &&
@@ -100,8 +102,10 @@ final class Seeks {
             $id1 = $this->db->real_escape_string($id1);
             $id2 = $this->db->real_escape_string($id2);
             $query = '
-                INSERT INTO ttt_games (player1_id, player2_id, start_time, ply)
-                VALUES (' . $id1 . ', ' . $id2 . ', ' . time() . ', 0);'
+                INSERT INTO ' . Seeks::TABLE_NAME . ' 
+                    (player1_id, player2_id, start_time, ply)
+                VALUES 
+                    (' . $id1 . ', ' . $id2 . ', ' . time() . ', 0);'
             ;
             return $this->db->query($query);
         }
@@ -118,7 +122,7 @@ final class Seeks {
     public function newSeek($userId) {
         $userId = $this->db->real_escape_string($userId);
         $query = '
-            INSERT INTO ttt_seeks (user_id, timestamp)
+            INSERT INTO ' . Seeks::TABLE_NAME . ' (user_id, timestamp)
             VALUES (' . $userId . ', ' . time() . ');'
         ;
         return $this->db->query($query);
@@ -136,7 +140,7 @@ final class Seeks {
 
         if ($user->getPermissions() & User::PERMISSIONS['admin']) {
             $query = '
-                DELETE FROM ttt_seeks
+                DELETE FROM ' . Seeks::TABLE_NAME . ' 
                 WHERE id = ' . $seekId . ';'
             ;
             return $this->db->query($query);
@@ -155,17 +159,12 @@ final class Seeks {
     public function removeSeekByUserId($seekId, $userId) {
         $seekId = $this->db->real_escape_string($seekId);
         $userId = $this->db->real_escape_string($userId);
-        echo $seekId . "\n";
-        echo $userId . "\n";
         $query = '
-            DELETE FROM ttt_seeks
+            DELETE FROM ' . Seeks::TABLE_NAME . ' 
             WHERE id = ' . $seekId . ' 
             AND user_id = ' . $userId . ';'
         ;
-        var_dump($seekId);
-        var_dump($userId);
         $result = $this->db->query($query);
-        var_dump($this->db->affected_rows());
         return $result && $this->db->affected_rows();
     } // end removeSeekByUserId
 } // end Seeks

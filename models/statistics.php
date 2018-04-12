@@ -4,6 +4,8 @@
  * Statistics model for a user
  */
 final class Stats {
+    public const TABLE_NAME = 'ttt_stats';
+
     private $db;
     private $userId;
     private $wins;
@@ -20,9 +22,30 @@ final class Stats {
         $this->userId = $userId;
     } // end __construct
 
+    /**
+     * Adds a new user to the stats table
+     *
+     * @return true if add was successful, false otherwise
+     */
+    public static function addUser($userId) {
+        $db = new DB(DBHOST, DBUSER, DBPASS, DATABASE);
+        $query = 'INSERT INTO ' . Stats::TABLE_NAME . ' (
+                    id,
+                    wins,
+                    losses,
+                    draws 
+                  ) VALUES (?, ?, ?, ?);';
+        $statement = $db->prepare($query);
+        $statement->bind_param('ssss', $userId, $d = 0, $d = 0, $d = 0);
 
-    // Todo function to create stats record upon user registration
+        if ($statement->execute()) {
+            $statement->close();
+            return true;
+        }
 
+        $statement->close();
+        return false;
+    } // end addUser
 
     /**
      * Returns the number of wins a user has
@@ -31,7 +54,7 @@ final class Stats {
      */
     public function getWins() {
         $query = '
-            SELECT wins FROM ttt_stats
+            SELECT wins FROM ' . Stats::TABLE_NAME . ' 
             WHERE id = ' . $this->userId . ';'
         ;
         $result = $this->db->query($query);
@@ -51,7 +74,7 @@ final class Stats {
      */
     public function getLosses() {
         $query = '
-            SELECT losses FROM ttt_stats
+            SELECT losses FROM ' . Stats::TABLE_NAME . ' 
             WHERE id = ' . $this->userId . ';'
         ;
         $result = $this->db->query($query);
@@ -71,7 +94,7 @@ final class Stats {
      */
     public function getDraws() {
         $query = '
-            SELECT draws FROM ttt_stats
+            SELECT draws FROM ' . Stats::TABLE_NAME . ' 
             WHERE id = ' . $this->userId . ';'
         ;
         $result = $this->db->query($query);
@@ -91,7 +114,7 @@ final class Stats {
      */
     public function addWin() {
         $query = '
-            UPDATE ttt_stats
+            UPDATE ' . Stats::TABLE_NAME . ' 
             SET wins = wins + 1 
             WHERE id = ' . $this->userId . ';'
         ;
@@ -105,7 +128,7 @@ final class Stats {
      */
     public function addDraw() {
         $query = '
-            UPDATE ttt_stats
+            UPDATE ' . Stats::TABLE_NAME . ' 
             SET draw = draw + 1 
             WHERE id = ' . $this->userId . ';'
         ;
@@ -119,7 +142,7 @@ final class Stats {
      */
     public function addLoss() {
         $query = '
-            UPDATE ttt_stats
+            UPDATE ' . Stats::TABLE_NAME . ' 
             SET losses = losses + 1 
             WHERE id = ' . $this->userId . ';'
         ;

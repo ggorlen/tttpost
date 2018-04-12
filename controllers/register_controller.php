@@ -36,8 +36,8 @@ class RegisterController implements Controller {
             $errors[]= "username can only contain letters, numbers, underscores and dashes";
         }
         
-        if (strlen($username) > 15) {
-            $errors[]= "username must be less than 15 characters";
+        if (strlen($username) > 20) {
+            $errors[]= "username must be less than 20 characters";
         }
         
         if (!isset($password)) {
@@ -76,7 +76,7 @@ class RegisterController implements Controller {
         if (count($errors) === 0) {
             $user = new User(DBHOST, DBUSER, DBPASS, DATABASE);
         
-            if ($user->register($username, $password, $email) && $user->login($username, $password)) {
+            if ($user->register($username, $password, $email)) { 
                 
                 // TODO send confirmation email with unqiue hash
         

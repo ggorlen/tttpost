@@ -4,12 +4,11 @@
  * Represents a user
  */
 class User {
+    public const TABLE_NAME = 'ttt_users';
     public const PERMISSIONS = [
         "user"  => 1 << 0, // TODO new users will default to 0 but after confirming email will be set to permission 1
         "admin" => 1 << 7
     ];
-
-    private const TABLE_NAME = 'ttt_users';
 
     private $id;
     private $username;
@@ -80,7 +79,10 @@ class User {
 
             // Populate instance data with db query using session username
             $username = $this->db->real_escape_string($_SESSION["User"]);
-            $query = "SELECT * FROM " . User::TABLE_NAME . " WHERE username = '$username';";
+            $query = '
+                SELECT * FROM ' . User::TABLE_NAME . " 
+                WHERE username = '$username';"
+            ;
             $result = $this->db->query($query);
 
             if ($result && $result->num_rows === 1 && 
@@ -108,7 +110,10 @@ class User {
      */
     public function login($username, $password) {
         $username = $this->db->real_escape_string($username);
-        $query = "SELECT * FROM " . User::TABLE_NAME . " WHERE username = '$username';";
+        $query = '
+            SELECT * FROM ' . User::TABLE_NAME . " 
+            WHERE username = '$username';"
+        ;
         $result = $this->db->query($query);
         
         if ($result && $result->num_rows === 1 && 
@@ -156,7 +161,7 @@ class User {
         $email = $this->db->real_escape_string($email);
         $permissions = $this->db->real_escape_string($permissions);
         $hash = password_hash($password, PASSWORD_BCRYPT);
-        unset($password);
+        //unset($password);
         $query = "INSERT INTO " . User::TABLE_NAME . " (
                     username,
                     email,
@@ -166,9 +171,13 @@ class User {
         $statement = $this->db->prepare($query);
         $statement->bind_param('ssss', $username, $email, $hash, $permissions);
 
-        if ($statement->execute()) {
-            $statement->close();
-            return true;
+        if ($statement->execute() && $this->login($username, $password)) {
+
+            // TODO make this a transaction? http://php.net/manual/en/mysqli.begin-transaction.php
+            if (Stats::addUser($this->id)) {
+                $statement->close();
+                return true;
+            }
         }
 
         $statement->close();
