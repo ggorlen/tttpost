@@ -190,8 +190,11 @@ class User {
      * @return Game object
      */
     public function getGameById($id) {
-        $query = "SELECT * FROM ttt_games 
-                  WHERE id = '$id'";
+        $query = '
+            SELECT * FROM ' . TicTacToeGame::TABLE_NAME . " 
+            WHERE id = '$id'
+            ;
+        ";
         $result = $this->db->query($query);
         
         if ($result && $result->num_rows === 1) {
@@ -202,13 +205,46 @@ class User {
     } // getGameById
 
     /**
+     * Retrieves a list of completed games for this user
+     *
+     * @return an array of Game objects
+     */
+    public function getCompletedGames() {
+        $query = '
+            SELECT * FROM ' . TicTacToeGame::TABLE_NAME . " 
+            WHERE '$this->id' IN (player1_id, player2_id)
+            AND result > ''
+            ORDER BY end_time DESC
+            ;
+        "; 
+        $result = $this->db->query($query);
+        
+        if ($result && $result->num_rows > 0) {
+            $games = [];
+
+            while ($gameData = $result->fetch_object()) {
+                $games[]= new TicTacToeGame($gameData);
+            }
+
+            return $games;
+        }
+
+        return false;
+    } // getCompletedGames
+
+    /**
      * Retrieves a list of current games for this user
      *
      * @return an array of Game objects
      */
     public function getCurrentGames() {
-        $query = "SELECT * FROM ttt_games 
-                  WHERE '$this->id' IN (player1_id, player2_id);"; 
+        $query = '
+            SELECT * FROM ' . TicTacToeGame::TABLE_NAME . " 
+            WHERE '$this->id' IN (player1_id, player2_id)
+            AND RESULT IS NULL OR RESULT = '' 
+            ORDER BY start_time DESC
+            ;
+        ";
         $result = $this->db->query($query);
         
         if ($result && $result->num_rows > 0) {

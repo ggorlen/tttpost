@@ -29,7 +29,8 @@ final class Seeks {
              ,' . User::TABLE_NAME . '.username
             FROM ' . Seeks::TABLE_NAME . ' 
             INNER JOIN ' . User::TABLE_NAME .  ' 
-            ON ' . Seeks::TABLE_NAME . '.user_id = ' . User::TABLE_NAME . '.id;
+            ON ' . Seeks::TABLE_NAME . '.user_id = ' . User::TABLE_NAME . '.id 
+            ORDER BY ' . Seeks::TABLE_NAME . '.timestamp DESC;
         ';
         $result = $this->db->query($query);
 

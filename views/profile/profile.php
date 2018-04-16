@@ -9,4 +9,4 @@
     <tr>
       <td>draws:</td><td> <?= isset($draws) ? $draws : 0 ?> </td>
     </tr>
-  <table>  
+  </table>  

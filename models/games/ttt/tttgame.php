@@ -4,7 +4,8 @@
  * Model for a Tic Tac Toe game
  */
 class TicTacToeGame implements Game {
-    private const GAME_TYPE = 'tic tac toe';
+    public const TABLE_NAME = 'ttt_games';
+    public const GAME_TYPE = 'tic tac toe';
 
     private $db;
     private $id;
@@ -96,8 +97,8 @@ class TicTacToeGame implements Game {
         if ($this->board->isWon()) {
             $this->result = $this->board->getPly() & 1 ? "1-0" : "0-1";
             $this->endTime = time();
-            $query = "
-                UPDATE ttt_games
+            $query = '
+                UPDATE ' . TicTacToeGame::TABLE_NAME . " 
                 SET result = '$this->result',
                 end_time = $this->endTime 
                 WHERE id = $this->id;
@@ -122,8 +123,8 @@ class TicTacToeGame implements Game {
         else if ($this->board->isDrawn()) {
             $this->result = "0-0";
             $this->endTime = time();
-            $query = "
-                UPDATE ttt_games
+            $query = '
+                UPDATE ' . TicTacToeGame::TABLE_NAME . "
                 SET result = '$this->result',
                 end_time = '$this->endTime' 
                 WHERE id = '$this->id';
