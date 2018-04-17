@@ -130,9 +130,17 @@ class SeeksController implements Controller {
         var seeksContainer = document.getElementById("ttt-seeks-container");
 
         newSeek.addEventListener("click", function () {
-          var newSeekRequest = ajax('index.php?page=newseek', handleNewSeek, handleNewSeekFailure);
+          var newSeekRequest = ajax(
+            'index.php?page=newseek', 
+            handleNewSeek, 
+            handleNewSeekFailure
+          );
           newSeekRequest.send();
-          newSeekRequest = ajax('index.php?page=newseek', handleNewSeek, handleNewSeekFailure);
+          newSeekRequest = ajax(
+            'index.php?page=newseek', 
+            handleNewSeek, 
+            handleNewSeekFailure
+          );
         });
 
         prepareSeekNodes();

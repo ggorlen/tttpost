@@ -1,8 +1,12 @@
 # Tic Tac Toe Post
-Correspondence tic tac toe application. This is a self-educational sketch towards a full-featured abstract strategy game app.
+Correspondence tic tac toe sketch
 
 ## Todos
-- Clean up AJAX and add error messages
+- Improve AJAX handling for ending games
+- Add sorting to current and completed games
+- Clean up AJAX and add error messages, especially for joining already joined seeks
+- Periodic AJAX refreshing
+- Admin panel showing users allowing deregistration/etc
 - Clean up seek/game initialization models
 - Ability resign or offer draw for games
 - End session if login detected from new device

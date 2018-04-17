@@ -78,47 +78,78 @@ class HomeController implements Controller {
       "use strict";
 
       (function () {
+        function handleMove(self) {
+          var gameElem = self.parentNode.parentNode.parentNode.parentNode;
+          var gameId = gameElem.id.split("-")[2];
+          var square = self.id.split("-")[2];
+
+          var moveRequest = ajax(
+            'index.php?page=move',
+            function (responseText) {
+              if (responseText) {
+                var side = self.className.indexOf("movable-x") >= 0 ? "X" : "O";
+                deactivateBoard(gameElem);
+                self.innerHTML = side;
+              }
+            },
+            function (responseText) {
+              // TODO show error
+              console.log(responseText);
+            }
+          );
+          moveRequest.send("game_id=" + gameId + "&square=" + square);
+          moveRequest = ajax(
+            'index.php?page=move',
+            function (responseText) {
+              if (responseText) {
+                var side = self.className.indexOf("movable-x") >= 0 ? "X" : "O";
+                deactivateBoard(gameElem);
+                self.innerHTML = side;
+              }
+            },
+            function (responseText) {
+              // TODO show error
+              console.log(responseText);
+            }
+          );
+        }
+
+        function deactivateBoard(boardElem) {
+          boardElem.classList.remove("ttt-board-toplay");
+          makeImmovable(boardElem);
+        }
+
+        function makeImmovable(elem) {
+          elem.classList.remove("movable");
+          elem.classList.remove("movable-x");
+          elem.classList.remove("movable-o");
+
+          if (elem.children.length) {
+            for (var i = 0; i < elem.children.length; i++) {
+              makeImmovable(elem.children[i]);
+            }
+          }
+        }
+
         var movableSquares = document.getElementsByClassName("movable");
 
         for (var i = 0; i < movableSquares.length; i++) {
-          movableSquares[i].addEventListener("click", function () {
+          movableSquares[i].addEventListener("mouseover", function (e) {
+            if (e.target.className.indexOf("movable") >= 0) {
+              e.target.innerHTML = e.target.className.indexOf("movable-x") >= 0 ? "X" : "O";
+            }
+          });
 
-            // TODO
-            var gameId = this
-              .parentNode
-              .parentNode
-              .parentNode
-              .parentNode
-              .id
-              .split("-");
-            gameId = gameId[gameId.length-1];
+          movableSquares[i].addEventListener("mouseout", function (e) {
+            if (e.target.className.indexOf("movable") >= 0) {
+              e.target.innerHTML = "";
+            }
+          });
 
-            var square = this.id.split("-");
-            square = square[square.length-1];
-
-            var moveRequest = ajax(
-              'index.php?page=move',
-              function (responseText) {
-                console.log(responseText);
-                location.reload(); // TODO
-              },
-              function (responseText) {
-                // TODO show error
-                console.log(responseText);
-              }
-            );
-            moveRequest.send("game_id=" + gameId + "&square=" + square);
-            moveRequest = ajax(
-              'index.php?page=move',
-              function (responseText) {
-                console.log(responseText);
-                location.reload(); // TODO
-              },
-              function (responseText) {
-                // TODO show error
-                console.log(responseText);
-              }
-            );
+          movableSquares[i].addEventListener("click", function (e) {
+            if (e.target.className.indexOf("movable") >= 0) {
+              handleMove(this);
+            }
           });
         }  
       })();

@@ -1,4 +1,5 @@
-<div class="ttt-board<?= $userHasMove && $result === "" ? " ttt-board-toplay" : "" ?>" id="ttt-game-<?= $gameID ?>">
+<div class="ttt-board<?= $userHasMove && $result === "" ? 
+     " ttt-board-toplay" : "" ?>" id="ttt-game-<?= $gameID ?>">
   <table>
 
     <?php
@@ -7,7 +8,8 @@
             echo "<tr>\n";
         }
 
-        echo "<td" . ($square === " " && $userHasMove && $result === "" ? ' class="movable"' : "") . 
+        echo "<td" . ($square === " " && $userHasMove && $result === "" ? 
+             ' class="movable movable-' . strtolower($toPlay) . '"' : "") . 
              " id=\"ttt-square-$i\">$square</td>\n";
 
         if ($i % 3 === 2) {

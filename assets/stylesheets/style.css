@@ -7,6 +7,7 @@ html {
 
 body {
   font-family: 'Inconsolata', monospace;
+  font-size: 1.1em;
   margin: 0;
   color: #444;
   overflow-y: scroll;
@@ -96,6 +97,16 @@ footer > p {
   justify-content: center;
 }
 
+.profile-container {
+  display: flex;
+  justify-content: center;
+  flex-flow: row wrap;
+}
+
+.profile-item {
+  padding: 1em;
+}
+
 button, 
 input {
   font-family: monospace;
@@ -153,7 +164,7 @@ input[type=password] {
 .ttt-board {
   padding: 1em;
   margin: 1em;
-  font-size: 0.9em;
+  font-size: 0.8em;
   border: 1px solid transparent;
 }
 
@@ -168,7 +179,7 @@ input[type=password] {
   font-size: 1.5em;
   font-weight: 700;
   text-transform: uppercase;
-  font-family: monospace;
+  font-family: 'Inconsolata', monospace;
   border-collapse: collapse;
 }
 
@@ -184,9 +195,7 @@ input[type=password] {
   cursor: pointer;
 }
 
-.ttt-board table td.movable:hover {
-  background: #f1f1f1;
-}
+.ttt-board table td.movable:hover { }
 
 .ttt-new-seek {
   margin: 0.5em;

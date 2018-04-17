@@ -48,23 +48,20 @@ class ProfileController implements Controller {
         include LAYOUTS . 'content_start.php';
         include VIEWS . 'profile/profile.php';
 
-            // Retrieve list of current games
-            $games = $this->userModel->getCompletedGames();
+        // Retrieve list of completed games
+        $games = $this->userModel->getCompletedGames();
 
-            if ($games && count($games) > 0) {
+        if ($games && count($games) > 0) {
 
-                // Render view for each game
-                include VIEWS . 'ttt/ttt_board_grid_header.php';
+            // Render view for each game
+            include VIEWS . 'ttt/ttt_board_grid_header.php';
 
-                foreach ($games as $game) {
-                    showGame($username, $game);
-                }
-
-                include VIEWS . 'ttt/ttt_board_grid_footer.php';
+            foreach ($games as $game) {
+                showGame($username, $game);
             }
-            else {
-                include VIEWS . 'ttt/ttt_board_empty.php';
-            }
+
+            include VIEWS . 'ttt/ttt_board_grid_footer.php';
+        }
 
         include LAYOUTS . 'content_end.php';
         include LAYOUTS . 'footer.php';
