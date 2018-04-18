@@ -132,14 +132,14 @@ input {
 .entryway-container input[type=submit] {
   background: transparent;
   padding: 0.4em;
-  border: 1px solid #777;
+  border: 1px solid #aaa;
   color: #fff;
   transition: border 0.1s;
 }
 
 .entryway-container button:hover, 
 .entryway-container input[type=submit]:hover {
-  border: 1px solid #aaa;
+  border: 1px solid #ddd;
   cursor: pointer;
 }
 

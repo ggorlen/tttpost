@@ -1,7 +1,6 @@
 <?php
 
-function getAjax() {
-    return <<<JS
+    echo <<<JS
     <script>
       "use strict";
 
@@ -29,6 +28,5 @@ function getAjax() {
     </script>
 
 JS;
-} // end getAjax
 
 ?>

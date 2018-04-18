@@ -32,7 +32,7 @@
   </div>
   <div>X: <?= $player1Username ?></div>
   <div>O: <?= $player2Username ?></div>
-  <div>
+  <div id="ttt-toplay-<?= $gameID ?>">
   <?php
     if ($result === "") {
       echo "to play: $toPlay";
