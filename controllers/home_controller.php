@@ -117,6 +117,8 @@ class HomeController implements Controller {
         function deactivateBoard(boardElem) {
           boardElem.classList.remove("ttt-board-toplay");
           makeImmovable(boardElem);
+
+          // flip to play here TODO
         }
 
         function makeImmovable(elem) {

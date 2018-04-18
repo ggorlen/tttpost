@@ -3,6 +3,7 @@ Correspondence tic tac toe sketch
 
 ## Todos
 - Improve AJAX handling for ending games
+- Ability to play a game against AI on front page
 - Add sorting to current and completed games
 - Clean up AJAX and add error messages, especially for joining already joined seeks
 - Periodic AJAX refreshing
