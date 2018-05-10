@@ -12,7 +12,7 @@ class LoginController implements Controller {
     public function __construct() {
 
         // Populate this model with a user object
-        $this->model = new User(DBHOST, DBUSER, DBPASS, DATABASE);
+        $this->model = new User();
     } // end __construct
 
     /**

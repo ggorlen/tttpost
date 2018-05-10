@@ -27,10 +27,9 @@ class User {
      * @param $database the name of the database
      * @return a User instance
      */
-    public function __construct($dbhost, $dbuser, $dbpass, $database) {
-        $this->session = new Session($dbhost, $dbuser, $dbpass, $database);
-        $this->db = new DB($dbhost, $dbuser, $dbpass, $database);
-        unset($dbhost, $dbuser, $dbpass, $database);
+    public function __construct() {
+        $this->session = new Session(DBHOST, DBUSER, DBPASS, DATABASE);
+        $this->db = new db(DBHOST, DBUSER, DBPASS, DATABASE);
     } // end __construct
 
     /**
@@ -58,7 +57,7 @@ class User {
      */
     public function getPermissions() {
         return $this->permissions;
-    } // endGetPermissions
+    } // end GetPermissions
 
     /**
      * Returns whether this user is logged in
@@ -88,11 +87,11 @@ class User {
             if ($result && $result->num_rows === 1 && 
                 $userData = $result->fetch_object()) {
 
-                $this->id = $userData->id;
+                $this->id = (int)$userData->id;
                 $this->username = $userData->username;
                 $this->email = $userData->email;
                 $this->password = $userData->password;
-                $this->permissions = $userData->permissions;
+                $this->permissions = (int)$userData->permissions;
 
                 return true; 
             }
@@ -202,7 +201,7 @@ class User {
         }
 
         return false;
-    } // getGameById
+    } // end getGameById
 
     /**
      * Retrieves a list of completed games for this user
@@ -230,7 +229,7 @@ class User {
         }
 
         return false;
-    } // getCompletedGames
+    } // end getCompletedGames
 
     /**
      * Retrieves a list of current games for this user
@@ -258,10 +257,18 @@ class User {
         }
 
         return false;
-    } // getCurrentGames
+    } // end getCurrentGames
+
+    /**
+     * Removes a user and all their associated games and content from the database
+     *
+     * @return true if removal successful, false otherwise
+     */
+    private function unregister($password) {
+        // TODO
+    } // end unregister
 
     // TODO
-    private function unregister($password) {}
     private function changeUsername($password, $newUsername) {}
     private function changePassword($password, $newPassword) {}
     private function changeEmail($password, $email) {}

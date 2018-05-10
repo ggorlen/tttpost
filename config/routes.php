@@ -2,6 +2,8 @@
 
 // List of valid routes 
 $routes = [
+  'admin'      => 'AdminController',
+  'deregister' => 'DeregisterController',
   'home'       => 'HomeController',
   'login'      => 'LoginController',
   'logout'     => 'LogoutController',

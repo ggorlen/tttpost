@@ -12,7 +12,7 @@ class MoveController implements Controller {
     public function __construct() {
 
         // Populate this model with a user object
-        $this->userModel = new User(DBHOST, DBUSER, DBPASS, DATABASE);
+        $this->userModel = new User();
     } // end __construct
 
     /**
@@ -23,31 +23,34 @@ class MoveController implements Controller {
         // Start a session
         $this->userModel->loadSession();
 
-        // Determine whether user is logged in
-        $loggedIn = $this->userModel->loggedIn();
+        // Validate login and post data and attempt move
+        if ($this->userModel->loggedIn() && count($_POST) >= 2 && 
+            isset($_POST["game_id"]) && isset($_POST["square"])) {
+            
+            // Make game object by id and apply move to it
+            $gameId = (int)$_POST["game_id"];
+            $destSquare = (int)$_POST["square"];
+            $game = $this->userModel->getGameById($gameId);
+            
+            if ($game->move($this->userModel->getId(), $destSquare)) {
+            
+                // Set the result of the game if applicable
+                $game->setResult();
 
-        // Redirect the user to home if not logged in
-        if (!$loggedIn || count($_POST) < 2 || 
-            !isset($_POST["game_id"]) || 
-            !isset($_POST["square"])) {
-            header("Location: index.php");
+                header('Content-Type: application/json; charset=UTF-8');
+                return json_encode([
+                    "errors" => [],
+                    "gameId" => $gameId,
+                    "destSquare" => $destSquare,
+                    "result" => $game->getResult(),
+                    "board" => $game->getBoard(),
+                    "ended" => $game->getEndTime()
+                ]);
+            }
         }
 
-        $username = $this->userModel->getUsername();
-        $permissions = $this->userModel->getPermissions();
-        $admin = $this->userModel->getPermissions() & User::PERMISSIONS['admin'];
-
-        // Make game object by id and apply move to it
-        $game = $this->userModel->getGameById((int)$_POST["game_id"]);
-
-        if ($game->move((int)$this->userModel->getId(), (int)$_POST["square"])) {
-
-            // Set the result of the game if applicable
-            $game->setResult();
-            return true;
-        }
-
-        return false;
+        header('Content-Type: application/json; charset=UTF-8');
+        return json_encode([ "errors" => ["move failed"] ]);
     } // end call
 } // end MoveController
 

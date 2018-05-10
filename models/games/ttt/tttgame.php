@@ -116,9 +116,9 @@ class TicTacToeGame implements Game {
                     $p1Stat->addLoss();
                     $p2Stat->addWin();
                 }
-            }
 
-            return false;
+                return true;
+            }
         }
         else if ($this->board->isDrawn()) {
             $this->result = "0-0";
@@ -134,6 +134,7 @@ class TicTacToeGame implements Game {
                 $p2Stat = new Stats($this->player2Id);
                 $p1Stat->addDraw();
                 $p2Stat->addDraw();
+                return true;
             }
         }
 
@@ -182,7 +183,8 @@ class TicTacToeGame implements Game {
                       '" . $square . "'
                     );
                 ";
-                return $this->db->query($query);
+                $result = $this->db->query($query);
+                return $result && $this->db->affected_rows() > 0;
             }
         }
 
@@ -267,7 +269,7 @@ class TicTacToeGame implements Game {
      * @return int the end time
      */
     public function getEndTime() {
-       return $this->endTime; 
+        return $this->endTime; 
     } // end getEndTime
 
     /**
@@ -276,7 +278,7 @@ class TicTacToeGame implements Game {
      * @return int the start time
      */
     public function getStartTime() {
-       return $this->startTime; 
+        return $this->startTime; 
     } // end getStartTime
 
     /**

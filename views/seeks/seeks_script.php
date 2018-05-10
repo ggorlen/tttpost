@@ -24,6 +24,7 @@ echo <<<JS
             var self = this;
             var id = e.target.parentNode.parentNode.id.split("-");
             id = id[id.length-1];
+            if (id === "" || id === undefined) { return false; }
             
             if (e.target.innerText.indexOf("remove") >= 0) { // TODO brittle
               var removeSeekRequest = ajax(

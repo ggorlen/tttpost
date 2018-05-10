@@ -3,7 +3,7 @@
 /**
  * Controller to handle requests for the home page
  */
-class HomeController implements Controller {
+class AdminController implements Controller {
     private $userModel;
 
     /**
@@ -33,40 +33,33 @@ class HomeController implements Controller {
             $permissions = $this->userModel->getPermissions();
             $admin = $permissions & User::PERMISSIONS['admin'];
 
+            // Prevent non-admins from accessing this page
+            if (!$admin) {
+                header("Location: index.php");
+                exit;
+            }
+
             include LAYOUTS . 'navigation.php';
             include LAYOUTS . 'content_start.php';
-
-            // Retrieve list of current games
-            $games = $this->userModel->getCurrentGames();
-
-            if ($games && count($games) > 0) {
-
-                // Render view for each game
-                include VIEWS . 'ttt/ttt_board_grid_header.php';
-
-                foreach ($games as $game) {
-                    showGame($username, $game);
-                }
-
-                include VIEWS . 'ttt/ttt_board_grid_footer.php';
-            }
-            else {
-                include VIEWS . 'ttt/ttt_board_empty.php';
-            }
+            
+            // Retrieve and display users
+            $dashboard = new Admin();
+            $users = $dashboard->getUsers();
+            include VIEWS . 'admin/format_users.php';
+            echo formatUsers($users);
 
             include LAYOUTS . 'content_end.php';
         }
         else {
-            include VIEWS . 'home/site_description.php';
-            include VIEWS . 'home/entryway.php';
-            include HELPERS . 'errors.php';
+            header("Location: index.php");
+            exit;
         }
 
         include LAYOUTS . 'footer.php';
         include VIEWS . 'helpers/ajax.php';
-        include VIEWS . 'ttt/ttt_script.php';
+        include VIEWS . 'admin/admin_script.php';
         include LAYOUTS . 'end.php';
     } // end call
-} // end HomeController
+} // end AdminController
 
 ?>

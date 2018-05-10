@@ -103,12 +103,13 @@ final class Seeks {
             $id1 = $this->db->real_escape_string($id1);
             $id2 = $this->db->real_escape_string($id2);
             $query = '
-                INSERT INTO ' . Seeks::TABLE_NAME . ' 
+                INSERT INTO ' . TicTacToeGame::TABLE_NAME . ' 
                     (player1_id, player2_id, start_time, ply)
                 VALUES 
                     (' . $id1 . ', ' . $id2 . ', ' . time() . ', 0);'
             ;
-            return $this->db->query($query);
+            $result = $this->db->query($query);
+            return $result && $this->db->affected_rows() > 0;
         }
 
         return false;
@@ -126,7 +127,8 @@ final class Seeks {
             INSERT INTO ' . Seeks::TABLE_NAME . ' (user_id, timestamp)
             VALUES (' . $userId . ', ' . time() . ');'
         ;
-        return $this->db->query($query);
+        $result = $this->db->query($query);
+        return $result && $this->db->affected_rows() > 0;
     } // end newSeek
 
     /**
@@ -144,7 +146,8 @@ final class Seeks {
                 DELETE FROM ' . Seeks::TABLE_NAME . ' 
                 WHERE id = ' . $seekId . ';'
             ;
-            return $this->db->query($query);
+            $result = $this->db->query($query);
+            return $result && $this->db->affected_rows() > 0;
         }
         
         return $this->removeSeekByUserId($seekId, $user->getId());
@@ -166,7 +169,7 @@ final class Seeks {
             AND user_id = ' . $userId . ';'
         ;
         $result = $this->db->query($query);
-        return $result && $this->db->affected_rows();
+        return $result && $this->db->affected_rows() > 0;
     } // end removeSeekByUserId
 } // end Seeks
 

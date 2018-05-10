@@ -85,7 +85,7 @@ final class Stats {
         }
 
         return null;
-    } // endGetLosses
+    } // end getLosses
 
     /**
      * Returns the number of draws a user has
@@ -147,7 +147,7 @@ final class Stats {
             WHERE id = ' . $this->userId . ';'
         ;
         return $this->db->query($query);
-    } // end addLosses
+    } // end addLoss
 } // end Stats
 
 ?>

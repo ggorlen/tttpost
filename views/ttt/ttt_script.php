@@ -2,47 +2,49 @@
       "use strict";
 
       (function () {
-        function handleMove(self) {
-          var gameElem = self.parentNode.parentNode.parentNode.parentNode;
-          var gameId = gameElem.id.split("-")[2];
-          var square = self.id.split("-")[2];
 
-          var moveRequest = ajax(
-            'index.php?page=move',
-            function (responseText) {
-              if (responseText) {
-                var side = self.className.indexOf("movable-x") >= 0 ? "X" : "O";
-                deactivateBoard(gameElem, gameId);
-                self.innerHTML = side;
-              }
-            },
-            function (responseText) {
-              // TODO show error
-              console.log(responseText);
+        function onSuccess(responseText, boardElem, squareElem) {
+          var responseData = JSON.parse(responseText);
+        
+          if (responseData.errors.length) {
+            // TODO handle errors
+          }
+          else {
+            switchSides(responseData.gameId, boardElem, squareElem);
+
+            if (responseData.result) {
+              endGame(boardElem);
             }
-          );
-          moveRequest.send("game_id=" + gameId + "&square=" + square);
-          moveRequest = ajax(
-            'index.php?page=move',
-            function (responseText) {
-              if (responseText) {
-                var side = self.className.indexOf("movable-x") >= 0 ? "X" : "O";
-                deactivateBoard(gameElem, gameId);
-                self.innerHTML = side;
-              }
-            },
-            function (responseText) {
-              // TODO show error
-              console.log(responseText);
-            }
-          );
+          }
         }
 
-        function deactivateBoard(boardElem, gameId) {
+        function onFailure(repsonseText) {
+
+        }
+
+        function handleMove(squareElem) {
+          var boardElem = squareElem.parentNode.parentNode.parentNode.parentNode;
+          var gameId = boardElem.id.split("-")[2];
+          var square = squareElem.id.split("-")[3];
+          var moveRequest = ajax(
+            "index.php?page=move",
+            function (responseText) { onSuccess(responseText, boardElem, squareElem); }, 
+            onFailure
+          );
+          moveRequest.send("game_id=" + gameId + "&square=" + square);
+        }
+
+        function endGame(boardElem) {
+          
+        }
+
+        function switchSides(gameId, boardElem, squareElem) {
+          var side = squareElem.className.indexOf("movable-x") >= 0 ? "X" : "O";
           boardElem.classList.remove("ttt-board-toplay");
           makeImmovable(boardElem);
           var toPlayElem = document.getElementById("ttt-toplay-" + gameId);
           toPlayElem.innerHTML = "to play: " + (toPlayElem.innerHTML.indexOf("X") >= 0 ? "O" : "X");
+          squareElem.innerHTML = side;
         }
 
         function makeImmovable(elem) {
@@ -78,7 +80,7 @@
               handleMove(this);
             }
           });
-        }  
+        }
       })();
 
     </script>

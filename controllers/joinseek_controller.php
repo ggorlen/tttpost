@@ -12,7 +12,7 @@ class JoinSeekController implements Controller {
     public function __construct() {
 
         // Populate this model with a user object
-        $this->userModel = new User(DBHOST, DBUSER, DBPASS, DATABASE);
+        $this->userModel = new User();
     } // end __construct
 
     /**

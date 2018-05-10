@@ -12,7 +12,7 @@ class NewSeekController implements Controller {
     public function __construct() {
 
         // Populate this model with a user object
-        $this->userModel = new User(DBHOST, DBUSER, DBPASS, DATABASE);
+        $this->userModel = new User();
     } // end __construct
 
     /**
@@ -41,7 +41,7 @@ class NewSeekController implements Controller {
         if ($seek->newSeek($this->userModel->getId())) {
 
             // Return updated seek view
-            // TODO: just return the new seek
+            // TODO: just return the new seek or JSON
             include VIEWS . 'seeks/format_seeks.php';
             echo formatSeeks($seek->getSeeks(), $this->userModel->getId(), $admin);
         }

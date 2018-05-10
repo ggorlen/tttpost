@@ -7,5 +7,5 @@ CREATE TABLE IF NOT EXISTS `ttt_stats` (
   `wins` int(10) unsigned DEFAULT 0,
   `losses` int(10) unsigned DEFAULT 0,
   `draws` int(10) unsigned DEFAULT 0,
-  FOREIGN KEY (`id`) REFERENCES ttt_users(`id`)
+  FOREIGN KEY (`id`) REFERENCES ttt_users(`id`) ON DELETE CASCADE
 );

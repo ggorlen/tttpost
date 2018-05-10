@@ -13,6 +13,6 @@ CREATE TABLE IF NOT EXISTS `ttt_games` (
   `result` varchar(10),
   `start_time` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
-  FOREIGN KEY (`player1_id`) REFERENCES ttt_users(`id`),
-  FOREIGN KEY (`player2_id`) REFERENCES ttt_users(`id`) 
+  FOREIGN KEY (`player1_id`) REFERENCES ttt_users(`id`) ON DELETE CASCADE,
+  FOREIGN KEY (`player2_id`) REFERENCES ttt_users(`id`) ON DELETE CASCADE
 );

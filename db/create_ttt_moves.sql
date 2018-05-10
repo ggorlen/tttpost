@@ -10,6 +10,6 @@ CREATE TABLE IF NOT EXISTS `ttt_moves` (
   `end_location` int(10) unsigned NOT NULL,
   `start_location` int(10) unsigned,
   PRIMARY KEY (`id`),
-  FOREIGN KEY (`game_id`) REFERENCES ttt_games(`id`),
-  FOREIGN KEY (`player_id`) REFERENCES ttt_users(`id`)
+  FOREIGN KEY (`game_id`) REFERENCES ttt_games(`id`) ON DELETE CASCADE,
+  FOREIGN KEY (`player_id`) REFERENCES ttt_users(`id`) ON DELETE CASCADE
 );

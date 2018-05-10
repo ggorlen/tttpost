@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Controller for seeks
+ * Controller to handle requests for destroying seeks
  */
-class SeeksController implements Controller {
+class DeregisterController implements Controller {
     private $userModel;
 
     /**
@@ -27,7 +27,7 @@ class SeeksController implements Controller {
         $loggedIn = $this->userModel->loggedIn();
 
         // Redirect the user to home if not logged in
-        if (!$loggedIn) {
+        if (!$loggedIn || !isset($_POST) || count($_POST) === 0) {
             header("Location: index.php");
         }
 
@@ -35,28 +35,11 @@ class SeeksController implements Controller {
         $userId = $this->userModel->getId();
         $permissions = $this->userModel->getPermissions();
         $admin = $this->userModel->getPermissions() & User::PERMISSIONS['admin'];
-        include LAYOUTS . 'header.php';
-        include LAYOUTS . 'title.php';
-        include LAYOUTS . 'navigation.php';
-        include LAYOUTS . 'content_start.php';
 
-        $seekModel = new Seeks();
-        $seeks = $seekModel->getSeeks();
-
-        // Show link to make new seek and list of available seeks
-        include VIEWS . 'seeks/new_seek.php';
-
-        if ($seeks) {
-            include VIEWS . 'seeks/format_seeks.php';
-            echo formatSeeks($seeks, $userId, $admin);
-        }
-
-        include LAYOUTS . 'content_end.php';
-        include LAYOUTS . 'footer.php';
-        include VIEWS . 'helpers/ajax.php';
-        include VIEWS . 'seeks/seeks_script.php';
-        include LAYOUTS . 'end.php';
+        // Attempt removal of specified user
+        $admin = new Admin();
+        echo $admin->deleteUser((int)$_POST["id"]);
     } // end call
-} // end NewGameController
+} // end RemoveSeekController
 
 ?>

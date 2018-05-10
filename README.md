@@ -7,7 +7,7 @@ Correspondence tic tac toe sketch
 - Add sorting to current and completed games
 - Clean up AJAX and add error messages, especially for joining already joined seeks
 - Periodic AJAX refreshing
-- Admin panel showing users allowing deregistration/etc
+- Admin panel showing users allowing deregistration/list of active users online/etc
 - Clean up seek/game initialization models
 - Ability resign or offer draw for games
 - End session if login detected from new device

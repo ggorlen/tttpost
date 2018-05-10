@@ -10,7 +10,7 @@
 
         echo "<td" . ($square === " " && $userHasMove && $result === "" ? 
              ' class="movable movable-' . strtolower($toPlay) . '"' : "") . 
-             " id=\"ttt-square-$i\">$square</td>\n";
+             " id=\"ttt-square-$gameID-$i\">$square</td>\n";
 
         if ($i % 3 === 2) {
             echo "</tr>\n";

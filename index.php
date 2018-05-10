@@ -6,12 +6,13 @@ require DB_CREDENTIALS;
 
 // Import MVC classes 
 $dirs = [
-  LIB . '/*.php',
-  MODELS . '/*.php',
-  MODELS . '/games/*.php',
-  MODELS . '/games/ttt/*.php',
-  CONTROLLERS . '/*.php',
-  CONTROLLERS . '/helpers/*.php'
+    LIB . '/*.php',
+    MODELS . '/*.php',
+    MODELS . '/games/*.php',
+    MODELS . '/games/ttt/*.php',
+    CONTROLLERS . '/interfaces/*.php',
+    CONTROLLERS . '/helpers/*.php',
+    CONTROLLERS . '/*.php'
 ];
 
 // TODO glob recursively
