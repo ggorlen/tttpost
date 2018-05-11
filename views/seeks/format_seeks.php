@@ -27,10 +27,10 @@ function formatSeek($seek, $userId, $admin) {
   $s = '<tr class="ttt-seek" id="ttt-seek-' . $seek['id'] . '">
      <td> ' . $seek['username'] . '</td>
      <td>
-       ' . date('Y/m/d h:i A', $seek['timestamp']) .
+       ' . $seek['timestamp'] .
     '</td>';
 
-  if ($seek['user_id'] === $userId) {
+  if ((int)$seek['user_id'] === $userId) {
     $s .= '<td><a href="javascript:void(0)">remove</a></td>';
   }
   else {

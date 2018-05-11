@@ -34,4 +34,3 @@ function formatUser($user) {
 }
 
 ?>
-

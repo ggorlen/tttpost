@@ -2,21 +2,23 @@
 Correspondence tic tac toe sketch
 
 ## Todos
-- Improve AJAX handling for ending games
 - Ability to play a game against AI on front page
 - Add sorting to current and completed games
-- Clean up AJAX and add error messages, especially for joining already joined seeks
-- Periodic AJAX refreshing
-- Admin panel showing users allowing deregistration/list of active users online/etc
-- Clean up seek/game initialization models
+- Clean up AJAX and add error messages, especially for joining removed seeks
+- Periodic AJAX refreshing or button to do so
+- Admin panel list of active users online/etc
+- Clean up seek/game initialization models and remove old seeks after a period of non-action
 - Ability resign or offer draw for games
+- Add transactions for a few non-transacted queries
 - End session if login detected from new device
 - Registration mail confirmation
 - Registration/login protection from robots
-- Email notifications for move ready
+- Game detail view
 - Chat
 - In depth statistics
+- Separate profile pages
 - Following/followers
+- Email notifications for move ready
 
 ## Ideas for future games
 - [Ultimate Tic Tac Toe](https://en.wikipedia.org/wiki/Ultimate_tic-tac-toe)

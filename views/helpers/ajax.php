@@ -18,10 +18,10 @@
           }
         };
 
-        request.open(requestType ? requestType : "post", url);
+        request.open(requestType || "post", url);
         request.setRequestHeader(
           "Content-type",
-          contentType ? contentType : "application/x-www-form-urlencoded"
+          contentType || "application/x-www-form-urlencoded"
         );
         return request;
       }

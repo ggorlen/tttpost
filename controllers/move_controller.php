@@ -44,7 +44,7 @@ class MoveController implements Controller {
                     "destSquare" => $destSquare,
                     "result" => $game->getResult(),
                     "board" => $game->getBoard(),
-                    "ended" => $game->getEndTime()
+                    "endTime" => date('Y/m/d h:i A', $game->getEndTime())
                 ]);
             }
         }

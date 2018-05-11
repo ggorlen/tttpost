@@ -15,7 +15,6 @@ $dirs = [
     CONTROLLERS . '/*.php'
 ];
 
-// TODO glob recursively
 foreach ($dirs as $dir) {
     foreach (glob($dir) as $file) { 
         require $file; 

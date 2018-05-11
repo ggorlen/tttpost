@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Controller to handle requests for new seeks
+ * Controller to handle requests for destroying seeks
  */
-class NewSeekController implements Controller {
+class GetSeeksController implements Controller {
     private $userModel;
 
     /**
@@ -23,26 +23,25 @@ class NewSeekController implements Controller {
         // Start a session
         $this->userModel->loadSession();
 
+        // Determine whether user is logged in
+        $loggedIn = $this->userModel->loggedIn();
+
+
         // Redirect the user to home if not logged in
-        if (!$this->userModel->loggedIn()) {
+        if (!$loggedIn) {
             header("Location: index.php");
         }
 
         $admin = $this->userModel->getPermissions() & User::PERMISSIONS['admin'];
 
-        // Attempt adding the new seek
+        // Return a list of seeks
         $seek = new Seeks();
-
-        if ($seek->newSeek($this->userModel->getId())) {
-            return json_encode([
-                "userId" => $this->userModel->getId(),
-                "admin" => $admin > 0,
-                "seeks" => $seek->getSeeks()
-            ]);
-        }
-
-        return false;
+        return json_encode([
+            "userId" => $this->userModel->getId(),
+            "admin" => $admin > 0,
+            "seeks" => $seek->getSeeks()
+        ]);
     } // end call
-} // end NewSeekController
+} // end RemoveSeekController
 
 ?>

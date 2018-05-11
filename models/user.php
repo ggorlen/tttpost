@@ -161,12 +161,12 @@ class User {
         $permissions = $this->db->real_escape_string($permissions);
         $hash = password_hash($password, PASSWORD_BCRYPT);
         //unset($password);
-        $query = "INSERT INTO " . User::TABLE_NAME . " (
+        $query = 'INSERT INTO ' . User::TABLE_NAME . ' (
                     username,
                     email,
                     password,
                     permissions
-                  ) VALUES (?, ?, ?, ?);";
+                  ) VALUES (?, ?, ?, ?);';
         $statement = $this->db->prepare($query);
         $statement->bind_param('ssss', $username, $email, $hash, $permissions);
 
@@ -239,7 +239,7 @@ class User {
     public function getCurrentGames() {
         $query = '
             SELECT * FROM ' . TicTacToeGame::TABLE_NAME . " 
-            WHERE '$this->id' IN (player1_id, player2_id)
+            WHERE $this->id IN (player1_id, player2_id)
             AND RESULT IS NULL OR RESULT = '' 
             ORDER BY start_time DESC
             ;
@@ -262,17 +262,22 @@ class User {
     /**
      * Removes a user and all their associated games and content from the database
      *
+     * @param $password
      * @return true if removal successful, false otherwise
      */
-    private function unregister($password) {
-        // TODO
+    public function unregister($password) {
+        if (password_verify($password, $this->password)) {
+            $admin = new Admin();
+            return $admin->deleteUser($this->id);
+        }
+
+        return false;
     } // end unregister
 
     // TODO
-    private function changeUsername($password, $newUsername) {}
-    private function changePassword($password, $newPassword) {}
-    private function changeEmail($password, $email) {}
-    private function changePermissions($targetUsername, $newPermissions) {}
+    public function changeUsername($password, $newUsername) { }
+    public function changePassword($password, $newPassword) { }
+    public function changeEmail($password, $email) { }
 } // end User
 
 ?>

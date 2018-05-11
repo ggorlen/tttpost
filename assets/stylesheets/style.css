@@ -34,8 +34,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 header {
-  background-color: transparent;
-  width: 100%;
   color: #fff;
   margin: 0;
   text-align: center;
@@ -43,10 +41,8 @@ header {
 
 nav, 
 .site-description {
-  text-align: center;
-  background-color: transparent;
   color: #fff;
-  width: 100%;
+  text-align: center;
   padding-bottom: 1em;
 }
 
@@ -68,7 +64,6 @@ nav ul > li > a:visited,
 nav ul > li > a:hover,
 nav ul > li > a:active {
   color: #fff; 
-  text-decoration: underline;
 }
 
 nav ul > li > a:hover {
@@ -150,18 +145,33 @@ input {
   padding: 0.4em;
 }
 
+#ttt-seeks-menu {
+  cursor: default;
+  margin: 0.5em;
+}
+#ttt-new-seek-btn,
+#ttt-refresh-seeks-btn {
+  font-size: 1em;
+}
 button#ttt-new-seek-btn,
+button#ttt-refresh-seeks-btn,
 input[type=submit]#ttt-new-seek-btn {
   background: transparent;
   padding: 0.4em;
   border: 1px solid #777;
-  transition: border 0.1s;
+  transition: all 0.1s;
+  outline: 0;
 }
-
+button#ttt-refresh-seeks-btn:hover,
 button#ttt-new-seek-btn:hover,
 input[type=submit]#ttt-new-seek-btn:hover {
-  border: 1px solid #000;
+  box-shadow: 1px 1px #000;
   cursor: pointer;
+}
+button#ttt-refresh-seeks-btn:active,
+button#ttt-new-seek-btn:active,
+input[type=submit]#ttt-new-seek-btn:active {
+  box-shadow: 0 0 #000;
 }
 
 .error-container ul {
@@ -198,6 +208,8 @@ input[type=submit]#ttt-new-seek-btn:hover {
   margin: 1em;
   font-size: 0.8em;
   border: 1px solid transparent;
+  width: 200px;
+  transition: border 0.3s;
 }
 .ttt-board-toplay {
   border: 1px solid #555;
@@ -237,14 +249,6 @@ input[type=submit]#ttt-new-seek-btn:hover {
 }
 .ttt-board table td.movable:hover {
   font-size: 1em;
-}
-
-.ttt-new-seek {
-  margin: 0.5em;
-}
-
-#ttt-new-seek-btn {
-  font-size: 1.2em;
 }
 
 #ttt-seeks-container, 

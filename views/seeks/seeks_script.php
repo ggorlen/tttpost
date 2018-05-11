@@ -5,15 +5,58 @@ echo <<<JS
       "use strict";
 
       (function () {
-        function handleNewSeek(responseText) {
+        function formatSeeks(seeks, userId, admin) {
+          var s = [
+            '<table>' +
+            '<tr>' +
+              '<th>' +
+                'user' +
+              '</th>' +
+              '<th>' +
+                'created' +
+              '</th>' +
+              '<th>' +
+                'action' +
+              '</th>' +
+            '</tr>'
+          ];
+        
+          for (var i = 0; i < seeks.length; i++) {
+            s.push(formatSeek(seeks[i], userId, admin));
+          }
+        
+          return s.join("") + '</table>';
+        }
+        
+        function formatSeek(seek, userId, admin) {
+          var s = ['<tr class="ttt-seek" id="ttt-seek-' + seek.id + '">' +
+             '<td> ' + seek.username + '</td>' +
+             '<td>' + seek.timestamp + '</td>'];
+        
+          if (parseInt(seek.user_id) === userId) {
+            s.push('<td><a href="javascript:void(0)">remove</a></td>');
+          }
+          else {
+            s.push('<td><a href="javascript:void(0)">join</a>');
+        
+            if (admin) {
+              s.push(' [admin <a href="javascript:void(0)">remove</a>]');
+            }
+        
+            s.push('</td>');
+          }
+        
+          return s.join("") + '</tr>';
+        }
 
-          // TODO just prepare the one new node
-          var html = responseText.split("\\n");
-          seeksContainer.innerHTML = html.slice(1, html.length - 1).join("\\n");
+        function handleSeekRequest(responseText) {
+          var data = JSON.parse(responseText);
+          seeksContainer.innerHTML = 
+            formatSeeks(data.seeks, data.userId, data.admin);
           prepareSeekNodes();
         }
 
-        function handleNewSeekFailure(responseText) {
+        function handleSeekRequestFailure(responseText) {
 
           // TODO
           console.log(responseText);
@@ -64,27 +107,39 @@ echo <<<JS
           }
         }
 
-        var newSeek = document.getElementById("ttt-new-seek-btn");
+        var seeksContainer = document.getElementById("ttt-seeks-container")
+        var newSeekBtn = document.getElementById("ttt-new-seek-btn");
+        var refreshSeeksBtn = document.getElementById("ttt-refresh-seeks-btn");
         var seeksContainer = document.getElementById("ttt-seeks-container");
 
-        newSeek.addEventListener("click", function () {
+        newSeekBtn.addEventListener("click", function () {
           var newSeekRequest = ajax(
             'index.php?page=newseek', 
-            handleNewSeek, 
-            handleNewSeekFailure
+            handleSeekRequest, 
+            handleSeekRequestFailure
           );
           newSeekRequest.send();
-          newSeekRequest = ajax(
-            'index.php?page=newseek', 
-            handleNewSeek, 
-            handleNewSeekFailure
-          );
         });
 
-        prepareSeekNodes();
+        refreshSeeksBtn.addEventListener("click", function () {
+          var newSeekRequest = ajax(
+            'index.php?page=getseeks', 
+            handleSeekRequest, 
+            handleSeekRequestFailure
+          );
+          newSeekRequest.send();
+        });
+
+        var newSeekRequest = ajax(
+          'index.php?page=getseeks', 
+          handleSeekRequest, 
+          handleSeekRequestFailure
+        );
+        newSeekRequest.send();
       })();
 
     </script>
-JS
+
+JS;
 
 ?>

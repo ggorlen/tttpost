@@ -59,12 +59,11 @@ final class Stats {
         ;
         $result = $this->db->query($query);
 
-        if ($result->num_rows === 1) {
-            $row = $result->fetch_object();
-            return (int)$row->wins;
+        if ($result && $result->num_rows === 1) {
+            return (int)($result->fetch_object())->wins;
         }
 
-        return null;
+        return 0;
     } // end getWins
 
     /**
@@ -79,12 +78,11 @@ final class Stats {
         ;
         $result = $this->db->query($query);
 
-        if ($result->num_rows === 1) {
-            $row = $result->fetch_object();
-            return (int)$row->losses;
+        if ($result && $result->num_rows === 1) {
+            return (int)($result->fetch_object())->losses;
         }
 
-        return null;
+        return 0;
     } // end getLosses
 
     /**
@@ -99,12 +97,11 @@ final class Stats {
         ;
         $result = $this->db->query($query);
 
-        if ($result->num_rows === 1) {
-            $row = $result->fetch_object();
-            return (int)$row->draws;
+        if ($result && $result->num_rows === 1) {
+            return (int)($result->fetch_object())->draws;
         }
 
-        return null;
+        return 0;
     } // end getDraws
 
     /**
@@ -118,7 +115,8 @@ final class Stats {
             SET wins = wins + 1 
             WHERE id = ' . $this->userId . ';'
         ;
-        return $this->db->query($query);
+        $result = $this->db->query($query);
+        return $result && $this->db->affected_rows() > 0;
     } // end addWin
 
     /**
@@ -132,7 +130,8 @@ final class Stats {
             SET draw = draw + 1 
             WHERE id = ' . $this->userId . ';'
         ;
-        return $this->db->query($query);
+        $result = $this->db->query($query);
+        return $result && $this->db->affected_rows() > 0;
     } // end addDraw
 
     /**
@@ -146,7 +145,8 @@ final class Stats {
             SET losses = losses + 1 
             WHERE id = ' . $this->userId . ';'
         ;
-        return $this->db->query($query);
+        $result = $this->db->query($query);
+        return $result && $this->db->affected_rows() > 0;
     } // end addLoss
 } // end Stats
 

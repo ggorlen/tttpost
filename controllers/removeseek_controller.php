@@ -31,14 +31,8 @@ class RemoveSeekController implements Controller {
             header("Location: index.php");
         }
 
-        $username = $this->userModel->getUsername();
-        $userId = $this->userModel->getId();
-        $permissions = $this->userModel->getPermissions();
-        $admin = $this->userModel->getPermissions() & User::PERMISSIONS['admin'];
-
         // Attempt removal of specified seek
-        $seek = new Seeks();
-        echo $seek->removeSeek((int)$_POST["id"], $this->userModel);
+        echo (new Seeks())->removeSeek((int)$_POST["id"], $this->userModel);
     } // end call
 } // end RemoveSeekController
 

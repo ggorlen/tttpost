@@ -41,7 +41,7 @@ final class Seeks {
                 $seeks[]= [
                     'id' => $row->id,
                     'user_id' => $row->user_id,
-                    'timestamp' => $row->timestamp,
+                    'timestamp' => date('Y/m/d h:i A', $row->timestamp),
                     'username' => $row->username
                 ];
             }

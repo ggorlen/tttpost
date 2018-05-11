@@ -45,18 +45,12 @@ class SeeksController implements Controller {
 
         // Show link to make new seek and list of available seeks
         include VIEWS . 'seeks/new_seek.php';
-
-        if ($seeks) {
-            include VIEWS . 'seeks/format_seeks.php';
-            echo formatSeeks($seeks, $userId, $admin);
-        }
-
         include LAYOUTS . 'content_end.php';
         include LAYOUTS . 'footer.php';
         include VIEWS . 'helpers/ajax.php';
         include VIEWS . 'seeks/seeks_script.php';
         include LAYOUTS . 'end.php';
     } // end call
-} // end NewGameController
+} // end SeeksController
 
 ?>

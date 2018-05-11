@@ -13,7 +13,7 @@
             switchSides(responseData.gameId, boardElem, squareElem);
 
             if (responseData.result) {
-              endGame(boardElem);
+              endGame(boardElem, responseData.result, responseData.endTime);
             }
           }
         }
@@ -34,8 +34,9 @@
           moveRequest.send("game_id=" + gameId + "&square=" + square);
         }
 
-        function endGame(boardElem) {
-          
+        function endGame(boardElem, result, endTime) {
+          boardElem.children[1].innerText = "ended: " + endTime;
+          boardElem.children[4].innerText = "result: " + result;
         }
 
         function switchSides(gameId, boardElem, squareElem) {
@@ -43,8 +44,8 @@
           boardElem.classList.remove("ttt-board-toplay");
           makeImmovable(boardElem);
           var toPlayElem = document.getElementById("ttt-toplay-" + gameId);
-          toPlayElem.innerHTML = "to play: " + (toPlayElem.innerHTML.indexOf("X") >= 0 ? "O" : "X");
-          squareElem.innerHTML = side;
+          toPlayElem.innerText = "to play: " + (toPlayElem.innerText.indexOf("X") >= 0 ? "O" : "X");
+          squareElem.innerText = side;
         }
 
         function makeImmovable(elem) {

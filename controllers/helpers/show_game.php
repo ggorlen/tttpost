@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Creates a game view
  */
@@ -16,13 +15,10 @@ function showGame($username, $game) {
     $currentPlayer = $game->getCurrentPlayer();
     $toPlay = $currentPlayer === $player1 ? "X" : "O";
     $userHasMove = false;
-
     if ($username === $player1Username && $currentPlayer === $player1 ||
         $username === $player2Username && $currentPlayer === $player2) {
         $userHasMove = true;
     }
-
     include VIEWS . 'ttt/ttt_board.php';
 } // end showGame
-
 ?>
