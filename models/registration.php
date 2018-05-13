@@ -90,7 +90,7 @@ final class Registration {
         $username = $this->db->real_escape_string($username);
         $query = '
             SELECT * FROM ' . User::TABLE_NAME . "
-            WHERE username = $username
+            WHERE username = '$username'
             ;
         ";
         $result = $this->db->query($query);

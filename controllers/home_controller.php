@@ -63,9 +63,8 @@ class HomeController implements Controller {
         else {
             include VIEWS . 'home/site_description.php';
             include VIEWS . 'home/entryway.php';
-            include HELPERS . 'errors.php';
             include VIEWS . 'helpers/ajax.php';
-            include VIEWS . 'home/register_script.php';
+            include VIEWS . 'home/entryway_script.php';
             include LAYOUTS . 'end.php';
         }
     } // end call

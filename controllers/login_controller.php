@@ -10,8 +10,6 @@ class LoginController implements Controller {
      * Couples this controller with its model
      */
     public function __construct() {
-
-        // Populate this model with a user object
         $this->model = new User();
     } // end __construct
 
@@ -19,6 +17,12 @@ class LoginController implements Controller {
      * Executes the controller action
      */
     public function call() {
+        $data = json_decode(file_get_contents('php://input'), true);
+
+        // Redirect the user to home if data hash is incomplete
+        if (count($data) < 2) {
+            header('Location: index.php');
+        }
 
         // Start a session
         $user = $this->model;
@@ -28,29 +32,21 @@ class LoginController implements Controller {
             $user->logout();
         }
 
-        $form = array_map("trim", $_POST);
         $errors = [];
         
-        if (!isset($form["username"]) || strlen($form["username"]) === 0) {
+        if (!isset($data["username"]) || strlen($data["username"]) === 0) {
             $errors[]= "username required";
         }
         
-        if (!isset($form["password"]) || strlen($form["password"]) === 0) {
+        if (!isset($data["password"]) || strlen($data["password"]) === 0) {
             $errors[]= "password required";
         }
         
-        if (count($errors) === 0) { 
-            if ($user->login($form["username"], $form["password"])) {
-                header("Location: index.php");
-                exit;
-            }
-            else {
-                $errors[]= "invalid username or password";
-            }
+        if (count($errors) === 0 && !$user->login($data["username"], $data["password"])) {
+            $errors[]= "invalid username or password";
         }
 
-        include HELPERS . 'redirect_with_errors.php';
-
+        return json_encode([ "errors" => $errors ]);
     } // end call
 } // end LoginController
 

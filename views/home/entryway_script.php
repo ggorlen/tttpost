@@ -4,7 +4,6 @@
       (function () {
 
         function onSuccess(responseText) {
-          console.log(responseText);
           var responseData = JSON.parse(responseText);
         
           if (responseData.errors.length) {
@@ -41,6 +40,20 @@
 
           ajax(
             "index.php?page=register", onSuccess, onFailure, "POST", "application/json; charset=UTF-8"
+          ).send(JSON.stringify(data));
+        });
+
+        document.forms[1].addEventListener("submit", function (e) {
+          entrywayErrorsElem.innerHTML = "";
+          e.preventDefault();
+          var data = {};
+
+          for (var i = 0; i < this.elements.length - 1; i++) {
+            data[this.elements[i].placeholder] = this.elements[i].value;
+          }
+
+          ajax(
+            "index.php?page=login", onSuccess, onFailure, "POST", "application/json; charset=UTF-8"
           ).send(JSON.stringify(data));
         });
       })();

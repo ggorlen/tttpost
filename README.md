@@ -5,14 +5,14 @@ Correspondence tic tac toe sketch
 - Ability to play a game against AI on front page
 - Add sorting to current and completed games
 - Clean up AJAX and add error messages, especially for joining removed seeks
-- Periodic AJAX refreshing or button to do so
+- Periodic AJAX refreshing or buttons to do so
 - Admin panel list of active users online/etc
 - Clean up seek/game initialization models and remove old seeks after a period of non-action
 - Ability resign or offer draw for games
-- Add transactions for a few non-transacted queries
-- End session if login detected from new device
+- Add transactions for necessary non-transacted queries
 - Registration mail confirmation
 - Registration/login protection from robots
+- End session if login detected from new device
 - Game detail view
 - Chat
 - In depth statistics
