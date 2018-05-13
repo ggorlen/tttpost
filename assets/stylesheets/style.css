@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Inconsolata:400,700');
 
-
 html {
   height: 100%;
 }
@@ -30,8 +29,7 @@ a:hover {
   color: #999;
 }
 
-h1, h2, h3, h4, h5, h6 {
-}
+h1, h2, h3, h4, h5, h6 { }
 
 header {
   color: #fff;
@@ -97,24 +95,11 @@ footer > p {
   align-items: center;
 }
 
-.entryway-container #register-container, 
-.entryway-container #login-container {
-  padding: 1em;
-}
-
-.entryway-container {
-  color: #fff;
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: center;
-}
-
 .profile-container {
   display: flex;
   justify-content: center;
   flex-flow: row wrap;
 }
-
 .profile-item {
   padding: 1em;
 }
@@ -124,6 +109,16 @@ input {
   font-family: 'Inconsolata', monospace;
 }
 
+.entryway-container #register-container, 
+.entryway-container #login-container {
+  padding: 1em;
+}
+.entryway-container {
+  color: #fff;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+}
 .entryway-container button,
 .entryway-container input[type=submit] {
   background: transparent;
@@ -132,13 +127,11 @@ input {
   color: #fff;
   transition: border 0.1s;
 }
-
 .entryway-container button:hover, 
 .entryway-container input[type=submit]:hover {
   border: 1px solid #ddd;
   cursor: pointer;
 }
-
 .entryway-container input[type=text], 
 .entryway-container input[type=password] {
   width: 150px;
@@ -174,6 +167,7 @@ input[type=submit]#ttt-new-seek-btn:active {
   box-shadow: 0 0 #000;
 }
 
+#entryway-errors,
 .error-container ul {
   color: #e00;
   list-style: none;

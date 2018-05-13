@@ -41,8 +41,10 @@ final class Session {
         ini_set("session.gc_probability", 1);
         ini_set("session.gc_divisor", 100);
 
-        // Start session
-        session_start();
+        // Start session if not already running
+        if (!isset($_SESSION)) {
+            session_start();
+        }
     } // end __construct
 
     /**

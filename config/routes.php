@@ -14,7 +14,7 @@ $routes = [
     'removeseek' => 'RemoveSeekController',
     'joinseek'   => 'JoinSeekController',
     'profile'    => 'ProfileController',
-    'register'   => 'RegisterController',
+    'register'   => 'RegistrationController'
 ];
 
 const DEFAULT_ROUTE = 'home';
@@ -25,7 +25,7 @@ if (isset($_GET['page']) && array_key_exists($_GET['page'], $routes)) {
     $page = $_GET['page'];
 }
 
-// Make the selected controller and invoke it using any posted data
-echo (new $routes[$page]())->call($_POST);
+// Create and invoke the selected controller 
+echo (new $routes[$page]())->call();
 
 ?>

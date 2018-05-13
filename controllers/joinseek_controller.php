@@ -10,8 +10,6 @@ class JoinSeekController implements Controller {
      * Couples this controller with its model
      */
     public function __construct() {
-
-        // Populate this model with a user object
         $this->userModel = new User();
     } // end __construct
 
@@ -23,22 +21,14 @@ class JoinSeekController implements Controller {
         // Start a session
         $this->userModel->loadSession();
 
-        // Determine whether user is logged in
-        $loggedIn = $this->userModel->loggedIn();
-
-        // Redirect the user to home if not logged in
-        if (!$loggedIn || !isset($_POST) || count($_POST) === 0) {
-            header("Location: index.php");
+        // Redirect user if not logged in or post data unavailable
+        if (!$this->userModel->loggedIn() || count($_POST) === 0 || !isset($_POST['id'])) {
+            header('Location: index.php');
         }
 
-        $username = $this->userModel->getUsername();
-        $userId = $this->userModel->getId();
-        $permissions = $this->userModel->getPermissions();
-        $admin = $this->userModel->getPermissions() & User::PERMISSIONS['admin'];
-
-        // Attempt removal of specified seek
+        // Join specified seek if possible
         $seek = new Seeks();
-        echo $seek->joinSeek($_POST["id"], $this->userModel);
+        echo $seek->joinSeek($_POST['id'], $this->userModel);
     } // end call
 } // end JoinSeekController
 

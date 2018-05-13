@@ -3,92 +3,89 @@
 /**
  * Controller to handle requests for registration
  */
-class RegisterController implements Controller {
-    private $model;
+class RegistrationController implements Controller {
+    private $userModel;
+    private $regModel;
 
     /**
-     * Couples this controller with its model
+     * Couples this controller with model
      */
     public function __construct() {
-
-        // Populate this model with a user object
-        $this->model = new User();
+        $this->userModel = new User();
+        $this->regModel = new Registration();
     } // end __construct
 
     /**
      * Executes the controller action
      */
     public function call() {
-        $form = array_map("trim", $_POST);
-        $username = $form["username"];
-        $password = $form["password"];
-        $passwordVerify = $form["password-verify"];
-        $email = $form["email"];
-        $emailVerify = $form["email-verify"];
+        $data = json_decode(file_get_contents('php://input'), true);
+
+        // Redirect the user to home if data hash is empty
+        if (count($data) < 4) {
+            header('Location: index.php');
+        }
+
+        $form = array_map('trim', $data);
         $errors = [];
-        
-        // TODO move validation to the model
-        if (!isset($username)) {
+
+        if (!isset($form['username'])) {
             $errors[]= "username required";
         }
-        
-        if (!preg_match('/^[A-Za-z0-9_-]+$/', $username)) {
-            $errors[]= "username can only contain letters, numbers, underscores and dashes";
-        }
-        
-        if (strlen($username) > 20) {
-            $errors[]= "username must be less than 20 characters";
-        }
-        
-        if (!isset($password)) {
-            $errors[]= "password required";
-        }
-        
-        if (!isset($passwordVerify)) {
-            $errors[]= "password verification required";
-        }
-        
-        if ($password !== $passwordVerify) {
-            $errors[]= "passwords must match";
-        }
-        
-        if (!isset($email)) {
-            $errors[]= "email required";
-        }
-        
-        if (!isset($emailVerify)) {
-            $errors[]= "email verification required";
-        }
-        
-        if (isset($email) && isset($emailVerify)) { 
-            if ($email !== $emailVerify) {
-                $errors[]= "emails must match";
+        else {
+            if (!$this->regModel->validateUsernameCharacters($form['username'])) {
+                $errors[]= "username can only contain letters, numbers, underscores and dashes";
             }
-            else {
-                $email = filter_var($email, FILTER_SANITIZE_EMAIL);
-        
-                if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                    $errors[]= "invalid email address provided";
-                }
+            
+            if (!$this->regModel->validateUsernameLength($form['username'])) {
+                $errors[]= "username length must be between 4 and 20 characters";
             }
-        }
-        
-        if (count($errors) === 0) {
-            $user = new User(DBHOST, DBUSER, DBPASS, DATABASE);
-        
-            if ($user->register($username, $password, $email)) { 
-                
-                // TODO send confirmation email with unqiue hash
-        
-                header("Location: index.php");
-                exit;
-            }
-            else {
-                $errors[]= "username is already taken.";
+            
+            if (!$this->regModel->validateUsernameUniqueness($form['username'])) {
+                $errors[]= "username is already taken";
             }
         }
 
-        include HELPERS . 'redirect_with_errors.php';
+        if (!isset($form['password'])) {
+            $errors[]= "password required";
+        }
+        else {
+            if (!isset($form['passwordVerify'])) {
+                $errors[]= "password verification required";
+            }
+            else if (!$this->regModel->validatePasswordLength($form['password'])) {
+                $errors[]= "password must be between 8 and 20 characters";
+            }
+            else if ($form['password'] !== $form['passwordVerify']) {
+                $errors[]= "passwords must match";
+            }
+            // TODO validate pw characters
+        }
+
+        if (!isset($form['email'])) {
+            $errors[]= "email required";
+        }
+        else {
+            if (!isset($form['emailVerify'])) {
+                $errors[]= "email verification required";
+            }
+            else if ($form['email'] !== $form['emailVerify']) {
+                $errors[]= "emails must match";
+            }
+            else if (!$this->regModel->validateEmail($form['email'])) {
+                $errors[]= "invalid email address provided";
+            }
+        }
+
+        if (count($errors) === 0 && 
+            $this->regModel->register($form['username'], $form['password'], $form['email'])) { 
+            $user = new User();
+            $user->loadSession();
+
+            // TODO send confirmation email with unqiue hash as part of tx (from model?)
+        }
+
+        return json_encode([ "errors" => $errors ]);
     } // end call
 } // end RegisterController
 

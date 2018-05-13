@@ -55,17 +55,19 @@ class HomeController implements Controller {
             }
 
             include LAYOUTS . 'content_end.php';
+            include LAYOUTS . 'footer.php';
+            include VIEWS . 'helpers/ajax.php';
+            include VIEWS . 'ttt/ttt_script.php';
+            include LAYOUTS . 'end.php';
         }
         else {
             include VIEWS . 'home/site_description.php';
             include VIEWS . 'home/entryway.php';
             include HELPERS . 'errors.php';
+            include VIEWS . 'helpers/ajax.php';
+            include VIEWS . 'home/register_script.php';
+            include LAYOUTS . 'end.php';
         }
-
-        include LAYOUTS . 'footer.php';
-        include VIEWS . 'helpers/ajax.php';
-        include VIEWS . 'ttt/ttt_script.php';
-        include LAYOUTS . 'end.php';
     } // end call
 } // end HomeController
 

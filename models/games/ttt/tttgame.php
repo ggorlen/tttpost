@@ -94,6 +94,9 @@ class TicTacToeGame implements Game {
      * @return true if result was successfully set, false otherwise
      */
     public function setResult() {
+    
+        // TODO make transactions
+
         if ($this->board->isWon()) {
             $this->result = $this->board->getPly() & 1 ? "1-0" : "0-1";
             $this->endTime = time();
@@ -120,7 +123,7 @@ class TicTacToeGame implements Game {
                 return true;
             }
         }
-        else if ($this->board->isDrawn()) {
+        else if ($this->board->isDrawn()) { 
             $this->result = "0-0";
             $this->endTime = time();
             $query = '

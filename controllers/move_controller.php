@@ -25,11 +25,11 @@ class MoveController implements Controller {
 
         // Validate login and post data and attempt move
         if ($this->userModel->loggedIn() && count($_POST) >= 2 && 
-            isset($_POST["game_id"]) && isset($_POST["square"])) {
+            isset($_POST['game_id']) && isset($_POST['square'])) {
             
             // Make game object by id and apply move to it
-            $gameId = (int)$_POST["game_id"];
-            $destSquare = (int)$_POST["square"];
+            $gameId = (int)$_POST['game_id'];
+            $destSquare = (int)$_POST['square'];
             $game = $this->userModel->getGameById($gameId);
             
             if ($game->move($this->userModel->getId(), $destSquare)) {
@@ -39,18 +39,18 @@ class MoveController implements Controller {
 
                 header('Content-Type: application/json; charset=UTF-8');
                 return json_encode([
-                    "errors" => [],
-                    "gameId" => $gameId,
-                    "destSquare" => $destSquare,
-                    "result" => $game->getResult(),
-                    "board" => $game->getBoard(),
-                    "endTime" => date('Y/m/d h:i A', $game->getEndTime())
+                    'errors' => [],
+                    'gameId' => $gameId,
+                    'destSquare' => $destSquare,
+                    'result' => $game->getResult(),
+                    'board' => $game->getBoard(),
+                    'endTime' => date('Y/m/d h:i A', $game->getEndTime())
                 ]);
             }
         }
 
         header('Content-Type: application/json; charset=UTF-8');
-        return json_encode([ "errors" => ["move failed"] ]);
+        return json_encode([ 'errors' => ['move failed'] ]);
     } // end call
 } // end MoveController
 

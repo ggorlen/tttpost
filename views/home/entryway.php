@@ -1,7 +1,7 @@
     <div class="entryway-container">
       <div id="register-container">
         <h2>Register</h2>
-        <form action="<?= APP . 'index.php?page=register' ?>" method="post">
+        <form id="registration-form" method="post">
           <table>
             <tr>
               <td>
@@ -38,7 +38,7 @@
       </div>
       <div id="login-container">
         <h2>Log in</h2>
-        <form action="<?= APP . 'index.php?page=login' ?>" method="post">
+        <form id="login-form" action="<?= APP . 'index.php?page=login' ?>" method="post">
           <table>
             <tr>
               <td>
@@ -59,3 +59,6 @@
         </form>
       </div>
     </div>
+    <div id="entryway-errors">
+    </div>
+

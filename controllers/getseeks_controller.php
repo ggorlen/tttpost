@@ -10,8 +10,6 @@ class GetSeeksController implements Controller {
      * Couples this controller with its model
      */
     public function __construct() {
-
-        // Populate this model with a user object
         $this->userModel = new User();
     } // end __construct
 

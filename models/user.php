@@ -155,33 +155,33 @@ class User {
      * @param $permissions the permissions settings for this user
      * @return true if the user was created successfully, false otherwise
      */
-    public function register($username, $password, $email, $permissions = 0) {
-        $username = $this->db->real_escape_string($username);
-        $email = $this->db->real_escape_string($email);
-        $permissions = $this->db->real_escape_string($permissions);
-        $hash = password_hash($password, PASSWORD_BCRYPT);
-        //unset($password);
-        $query = 'INSERT INTO ' . User::TABLE_NAME . ' (
-                    username,
-                    email,
-                    password,
-                    permissions
-                  ) VALUES (?, ?, ?, ?);';
-        $statement = $this->db->prepare($query);
-        $statement->bind_param('ssss', $username, $email, $hash, $permissions);
-
-        if ($statement->execute() && $this->login($username, $password)) {
-
-            // TODO make this a transaction? http://php.net/manual/en/mysqli.begin-transaction.php
-            if (Stats::addUser($this->id)) {
-                $statement->close();
-                return true;
-            }
-        }
-
-        $statement->close();
-        return false;
-    } // end register
+    //public function register($username, $password, $email, $permissions = 0) {
+    //    $username = $this->db->real_escape_string($username);
+    //    $email = $this->db->real_escape_string($email);
+    //    $permissions = $this->db->real_escape_string($permissions);
+    //    $hash = password_hash($password, PASSWORD_BCRYPT);
+    //    //unset($password);
+    //    $query = 'INSERT INTO ' . User::TABLE_NAME . ' (
+    //                username,
+    //                email,
+    //                password,
+    //                permissions
+    //              ) VALUES (?, ?, ?, ?);';
+    //    $statement = $this->db->prepare($query);
+    //    $statement->bind_param('ssss', $username, $email, $hash, $permissions);
+    //
+    //    if ($statement->execute() && $this->login($username, $password)) {
+    //
+    //        // TODO make this a transaction? http://php.net/manual/en/mysqli.begin-transaction.php
+    //        if (Stats::addUser($this->id)) {
+    //            $statement->close();
+    //            return true;
+    //        }
+    //    }
+    //
+    //    $statement->close();
+    //    return false;
+    //} // end register
 
     /**
      * Retrieves a game by id

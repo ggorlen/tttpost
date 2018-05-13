@@ -10,8 +10,6 @@ class DeregisterController implements Controller {
      * Couples this controller with its model
      */
     public function __construct() {
-
-        // Populate this model with a user object
         $this->userModel = new User();
     } // end __construct
 
@@ -23,23 +21,18 @@ class DeregisterController implements Controller {
         // Start a session
         $this->userModel->loadSession();
 
-        // Determine whether user is logged in
-        $loggedIn = $this->userModel->loggedIn();
-
-        // Redirect the user to home if not logged in
-        if (!$loggedIn || !isset($_POST) || count($_POST) === 0) {
-            header("Location: index.php");
+        // Redirect the user to home if not logged in or post hash is empty
+        if (!$this->userModel->loggedIn() || count($_POST) === 0 || !isset($_POST['id'])) {
+            header('Location: index.php');
         }
-
-        $username = $this->userModel->getUsername();
-        $userId = $this->userModel->getId();
-        $permissions = $this->userModel->getPermissions();
-        $admin = $this->userModel->getPermissions() & User::PERMISSIONS['admin'];
-
-        // Attempt removal of specified user
-        $admin = new Admin();
-        echo $admin->deleteUser((int)$_POST["id"]);
+        
+        // Attempt removal of specified user if admin
+        if ($this->userModel->getPermissions() & User::PERMISSIONS['admin']) {
+            echo (new Admin())->deleteUser((int)$_POST['id']);
+        }
+        
+        return false;
     } // end call
-} // end RemoveSeekController
+} // end DeregisterController
 
 ?>

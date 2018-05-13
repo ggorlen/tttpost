@@ -27,16 +27,21 @@ final class Stats {
      *
      * @return true if add was successful, false otherwise
      */
-    public static function addUser($userId) {
-        $db = new DB(DBHOST, DBUSER, DBPASS, DATABASE);
-        $query = 'INSERT INTO ' . Stats::TABLE_NAME . ' (
-                    id,
-                    wins,
-                    losses,
-                    draws 
-                  ) VALUES (?, ?, ?, ?);';
-        $statement = $db->prepare($query);
-        $statement->bind_param('ssss', $userId, $d = 0, $d = 0, $d = 0);
+    public function addUser() {
+        $query = '
+            INSERT INTO ' . Stats::TABLE_NAME . ' (
+              id,
+              wins,
+              losses,
+              draws 
+            ) VALUES (?, ?, ?, ?)
+            ;
+        ';
+        $statement = $this->db->prepare($query);
+        $wins = 0;
+        $losses = 0;
+        $draws = 0;
+        $statement->bind_param('ssss', $this->userId, $wins, $losses, $draws);
 
         if ($statement->execute()) {
             $statement->close();
@@ -127,7 +132,7 @@ final class Stats {
     public function addDraw() {
         $query = '
             UPDATE ' . Stats::TABLE_NAME . ' 
-            SET draw = draw + 1 
+            SET draws = draws + 1 
             WHERE id = ' . $this->userId . ';'
         ;
         $result = $this->db->query($query);

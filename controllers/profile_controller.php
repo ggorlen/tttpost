@@ -23,12 +23,9 @@ class ProfileController implements Controller {
         // Start a session
         $this->userModel->loadSession();
 
-        // Determine whether user is logged in
-        $loggedIn = $this->userModel->loggedIn();
-
         // Redirect the user home if not logged in
-        if (!$loggedIn) {
-            header("Location: index.php");
+        if (!$this->userModel->loggedIn()) {
+            header('Location: index.php');
         }
 
         // Retrieve username and permissions from the model
