@@ -1,3 +1,4 @@
+
         <div class="profile-container">
           <div class="profile-item">
             <h2><?= $username ?></h2>
@@ -5,13 +6,13 @@
           <div class="profile-item">
             <table>  
               <tr>
-                <td>wins:</td><td> <?= isset($wins) ? $wins : "n/a" ?> </td>
+                <td>wins:</td><td> <?= isset($wins) ? $wins : 0 ?> </td>
               </tr>
               <tr>
-                <td>losses:</td><td> <?= isset($losses) ? $losses : "n/a" ?> </td> 
+                <td>losses:</td><td> <?= isset($losses) ? $losses : 0 ?> </td> 
               </tr>
               <tr>
-                <td>draws:</td><td> <?= isset($draws) ? $draws : "n/a" ?> </td>
+                <td>draws:</td><td> <?= isset($draws) ? $draws : 0 ?> </td>
               </tr>
             </table>  
           </div>

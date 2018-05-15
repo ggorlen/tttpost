@@ -152,8 +152,8 @@ input[type=submit]#ttt-new-seek-btn {
 button#ttt-refresh-seeks-btn:hover,
 button#ttt-new-seek-btn:hover,
 input[type=submit]#ttt-new-seek-btn:hover {
-  box-shadow: 1px 1px #000;
   cursor: pointer;
+  box-shadow: 1px 1px #000;
 }
 button#ttt-refresh-seeks-btn:active,
 button#ttt-new-seek-btn:active,

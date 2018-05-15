@@ -29,7 +29,7 @@ class RegistrationController implements Controller {
         $form = array_map('trim', $data);
         $errors = [];
 
-        if (!isset($form['username'])) {
+        if (!isset($form['username']) || strlen($form['username']) === 0) {
             $errors[]= "username required";
         }
         else {
@@ -46,7 +46,7 @@ class RegistrationController implements Controller {
             }
         }
 
-        if (!isset($form['password'])) {
+        if (!isset($form['password']) || strlen($form['password']) === 0) {
             $errors[]= "password required";
         }
         else {
@@ -62,7 +62,7 @@ class RegistrationController implements Controller {
             // TODO validate pw characters
         }
 
-        if (!isset($form['email'])) {
+        if (!isset($form['email']) || strlen($form['email']) === 0) {
             $errors[]= "email required";
         }
         else {
